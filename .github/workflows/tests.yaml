@@ -1,0 +1,39 @@
+name: Running Tests
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    types: [ opened, synchronize, reopened ]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit-tests:
+    name: Unit Tests
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        python-version: [ "3.12", "3.13", "3.14" ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout code base
+        uses: actions/checkout@v6
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Create venv
+        run: uv sync --dev
+
+      - name: Run test with pytest
+        run: |
+          uv run pytest --cov=sports_analytics
+
