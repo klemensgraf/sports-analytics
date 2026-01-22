@@ -5,11 +5,13 @@
 An end-to-end machine learning project demonstrating a complete data pipeline from ingestion to model training. This
 project showcases modern data engineering and ML practices using NHL game data as a real-world example.
 
+> **NHL API Documentation**: This project uses the NHL API (`https://api-web.nhle.com/v1`). Special thanks to [Zach M (@Zmalski)](https://github.com/Zmalski) for maintaining the comprehensive [NHL API Reference](https://github.com/Zmalski/NHL-API-Reference) documentation that serves as an invaluable resource for understanding the available endpoints and data structures.
+
 ## Overview
 
 This project implements a complete data pipeline following these stages:
 
-1. **Data Extraction**: Automated data ingestion from ESPN's public API
+1. **Data Extraction**: Automated data ingestion from the NHL's API
 2. **Data Loading**: Partitioned storage using DuckDB for efficient querying
 3. **Data Transformation**: Data cleaning and feature engineering (in progress)
 4. **Model Training**: Machine learning model development (planned)
@@ -27,9 +29,9 @@ The project uses a modern data stack:
 
 The pipeline currently includes:
 
-- **ELT Pipeline**: Daily-partitioned extraction of NHL game data from ESPN API
+- **ELT Pipeline**: Daily-partitioned extraction of NHL game data from the NHL API
 - **Data Assets**: Dagster assets for orchestrating data ingestion
-- **API Integration**: Custom ESPN API resource with error handling
+- **API Integration**: Custom NHL API resource with error handling and support for game schedules, scores, play-by-play data, and more
 - **Storage Layer**: DuckDB with partition support for time-series data
 - **Testing**: Unit tests for core utilities and data processing
 
@@ -84,7 +86,7 @@ Create a `.env` file in the project root:
 DUCKDB_DATABASE=<path/to/db/file.duckdb>
 
 # APIs
-ESPN_API_URL=http://site.api.espn.com/apis/site
+NHL_API_BASE_URL=https://api-web.nhle.com/v1
 ```
 
 #### MotherDuck Integration (Optional)
@@ -101,7 +103,7 @@ DUCKDB_DATABASE=md:<database>
 MOTHERDUCK_TOKEN=<token>
 
 # APIs
-ESPN_API_URL=http://site.api.espn.com/apis/site
+NHL_API_BASE_URL=https://api-web.nhle.com/v1
 ```
 
 ### Running the Pipeline
@@ -133,7 +135,7 @@ pytest --cov=sports_analytics
 ### Implemented
 
 - Daily-partitioned data ingestion for NHL games
-- ESPN API integration with error handling
+- NHL API integration with error handling (using `https://api-web.nhle.com/v1`)
 - DuckDB storage with partition management
 - Automated removal of incomplete games
 - Column name standardization (snake_case)
@@ -164,8 +166,15 @@ The project uses:
 ### Contributing
 
 This is an educational project demonstrating end-to-end ML pipeline development. Feel free to explore the code and
-implementation patterns. If you want to add your features to it,
-feel free to fork the repository.
+implementation patterns. If you want to add your features to it, feel free to fork the repository.
+
+## Data Sources & Acknowledgments
+
+This project uses the NHL API for data ingestion:
+- **NHL Web API**: `https://api-web.nhle.com/v1`
+- **API Documentation**: [NHL API Reference by Zach M (@Zmalski)](https://github.com/Zmalski/NHL-API-Reference)
+
+Special thanks to Zach M for creating and maintaining comprehensive documentation of the NHL's API endpoints, which has been instrumental in understanding the available data and building this pipeline.
 
 ## License
 
