@@ -1,0 +1,2093 @@
+{
+  "prevDate": "2026-01-20",
+  "currentDate": "2026-01-21",
+  "nextDate": "2026-01-22",
+  "gameWeek": [
+    {
+      "date": "2026-01-18",
+      "dayAbbrev": "SUN",
+      "numberOfGames": 3
+    },
+    {
+      "date": "2026-01-19",
+      "dayAbbrev": "MON",
+      "numberOfGames": 10
+    },
+    {
+      "date": "2026-01-20",
+      "dayAbbrev": "TUE",
+      "numberOfGames": 8
+    },
+    {
+      "date": "2026-01-21",
+      "dayAbbrev": "WED",
+      "numberOfGames": 6
+    },
+    {
+      "date": "2026-01-22",
+      "dayAbbrev": "THU",
+      "numberOfGames": 8
+    },
+    {
+      "date": "2026-01-23",
+      "dayAbbrev": "FRI",
+      "numberOfGames": 8
+    },
+    {
+      "date": "2026-01-24",
+      "dayAbbrev": "SAT",
+      "numberOfGames": 9
+    }
+  ],
+  "oddsPartners": [
+    {
+      "partnerId": 2,
+      "country": "SE",
+      "name": "Unibet",
+      "imageUrl": "https://assets.nhle.com/betting_partner/unibet.svg",
+      "siteUrl": "https://www.unibet.se/betting/sports/filter/ice_hockey/nhl/all/matches",
+      "bgColor": "#14805E",
+      "textColor": "#FFFFFF",
+      "accentColor": "#3AAA35"
+    },
+    {
+      "partnerId": 3,
+      "country": "CZ",
+      "name": "Tipsport",
+      "imageUrl": "https://assets.nhle.com/betting_partner/tipsport.svg",
+      "siteUrl": "https://www.tipsport.cz/PartnerRedirectAction.do?pid=16961&sid=20360&bid=34954&tid=11268",
+      "bgColor": "#2497F2",
+      "textColor": "#FFFFFF",
+      "accentColor": "#FFFFFF"
+    },
+    {
+      "partnerId": 6,
+      "country": "FI",
+      "name": "Veikkaus",
+      "imageUrl": "https://assets.nhle.com/betting_partner/veikkaus.svg",
+      "siteUrl": "https://www.veikkaus.fi/fi/vedonlyonti/pitkaveto?t=3-2-1_NHL",
+      "bgColor": "#0025F5",
+      "textColor": "#FFFFFF",
+      "accentColor": "#FFFFFF"
+    },
+    {
+      "partnerId": 7,
+      "country": "CA",
+      "name": "FanDuel",
+      "imageUrl": "https://assets.nhle.com/betting_partner/fanduel.svg",
+      "siteUrl": "https://fanduel.com",
+      "bgColor": "#0078ff",
+      "textColor": "#FFFFFF",
+      "accentColor": "#FFFFFF"
+    },
+    {
+      "partnerId": 8,
+      "country": "DE",
+      "name": "Sportradar",
+      "imageUrl": "https://assets.nhle.com/betting_partner/sportsradar.svg",
+      "siteUrl": "https://sportradar.com",
+      "bgColor": "#000000",
+      "textColor": "#FFFFFF",
+      "accentColor": "#E6E6E6"
+    },
+    {
+      "partnerId": 9,
+      "country": "US",
+      "name": "DraftKings",
+      "imageUrl": "https://assets.nhle.com/betting_partner/draftkings.svg",
+      "siteUrl": "https://dksb.sng.link/As9kz/3i4d?_dl=https%3A%2F%2Fsportsbook.draftkings.com%2Fgateway%3Fs%3D333653091&pcid=427326&psn=1320&pcn=NHL&pscn=OddsWidget&pcrn=NoOffer&pscid=SP&wpcid=427326&wpsrc=1320&wpcn=NHL&wpscn=OddsWidget&wpcrn=NoOffer&wpscid=SP&_forward_params=1",
+      "bgColor": "#000000",
+      "textColor": "#FFFFFF",
+      "accentColor": "#FFFFFF"
+    },
+    {
+      "partnerId": 10,
+      "country": "SK",
+      "name": "Doxxbet",
+      "imageUrl": "https://assets.nhle.com/betting_partner/doxxbet.svg",
+      "siteUrl": "https://www.doxxbet.sk/sk/sportove-tipovanie-online/kurzy/ladovy-hokej/usa/nhl/?msID=21&mbID=27",
+      "bgColor": "#f30d31",
+      "textColor": "#202020",
+      "accentColor": "#ffffff"
+    }
+  ],
+  "games": [
+    {
+      "id": 2025020788,
+      "season": 20252026,
+      "gameType": 2,
+      "gameDate": "2026-01-21",
+      "venue": {
+        "default": "Scotiabank Arena"
+      },
+      "startTimeUTC": "2026-01-22T00:00:00Z",
+      "easternUTCOffset": "-05:00",
+      "venueUTCOffset": "-05:00",
+      "tvBroadcasts": [
+        {
+          "id": 385,
+          "market": "N",
+          "countryCode": "US",
+          "network": "TNT",
+          "sequenceNumber": 11
+        },
+        {
+          "id": 501,
+          "market": "N",
+          "countryCode": "US",
+          "network": "truTV",
+          "sequenceNumber": 14
+        },
+        {
+          "id": 578,
+          "market": "N",
+          "countryCode": "US",
+          "network": "HBO MAX",
+          "sequenceNumber": 19
+        },
+        {
+          "id": 282,
+          "market": "N",
+          "countryCode": "CA",
+          "network": "SN",
+          "sequenceNumber": 101
+        },
+        {
+          "id": 281,
+          "market": "N",
+          "countryCode": "CA",
+          "network": "TVAS",
+          "sequenceNumber": 109
+        }
+      ],
+      "gameState": "OFF",
+      "gameScheduleState": "OK",
+      "awayTeam": {
+        "id": 17,
+        "name": {
+          "default": "Red Wings"
+        },
+        "abbrev": "DET",
+        "score": 2,
+        "sog": 41,
+        "logo": "https://assets.nhle.com/logos/nhl/svg/DET_light.svg?season=20252026"
+      },
+      "homeTeam": {
+        "id": 10,
+        "name": {
+          "default": "Maple Leafs"
+        },
+        "abbrev": "TOR",
+        "score": 1,
+        "sog": 31,
+        "logo": "https://assets.nhle.com/logos/nhl/svg/TOR_light.svg"
+      },
+      "gameCenterLink": "/gamecenter/det-vs-tor/2026/01/21/2025020788",
+      "threeMinRecap": "/video/det-at-tor-recap-6388070524112",
+      "threeMinRecapFr": "/fr/video/det-vs-tor-21-01-2026-resume-6388069069112",
+      "condensedGame": "/video/det-at-tor-condensed-game-6388068188112",
+      "condensedGameFr": "/fr/video/match-condense-red-wings-maple-leafs-21-01-2026-6388068186112",
+      "clock": {
+        "timeRemaining": "01:52",
+        "secondsRemaining": 112,
+        "running": false,
+        "inIntermission": false
+      },
+      "neutralSite": false,
+      "venueTimezone": "America/Toronto",
+      "period": 4,
+      "periodDescriptor": {
+        "number": 4,
+        "periodType": "OT",
+        "maxRegulationPeriods": 3
+      },
+      "gameOutcome": {
+        "lastPeriodType": "OT",
+        "otPeriods": 1
+      },
+      "goals": [
+        {
+          "period": 1,
+          "periodDescriptor": {
+            "number": 1,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "04:46",
+          "playerId": 8476872,
+          "name": {
+            "default": "S. Laughton"
+          },
+          "firstName": {
+            "default": "Scott"
+          },
+          "lastName": {
+            "default": "Laughton"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8475714,
+              "name": {
+                "default": "C. Jarnkrok",
+                "cs": "C. Järnkrok",
+                "fi": "C. Järnkrok",
+                "sk": "C. Järnkrok"
+              },
+              "assistsToDate": 1
+            },
+            {
+              "playerId": 8478904,
+              "name": {
+                "default": "S. Lorentz"
+              },
+              "assistsToDate": 10
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/TOR/8476872.png",
+          "teamAbbrev": "TOR",
+          "goalsToDate": 7,
+          "awayScore": 0,
+          "homeScore": 1,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/det-tor-laughton-scores-goal-against-john-gibson-6388061915112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/det-tor-laughton-marque-un-but-contre-john-gibson-6388064809112",
+          "highlightClip": 6388061915112,
+          "highlightClipFr": 6388064809112,
+          "discreteClip": 6388063491112,
+          "discreteClipFr": 6388063792112
+        },
+        {
+          "period": 1,
+          "periodDescriptor": {
+            "number": 1,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "19:42",
+          "playerId": 8482762,
+          "name": {
+            "default": "S. Edvinsson"
+          },
+          "firstName": {
+            "default": "Simon"
+          },
+          "lastName": {
+            "default": "Edvinsson"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8482078,
+              "name": {
+                "default": "L. Raymond"
+              },
+              "assistsToDate": 39
+            },
+            {
+              "playerId": 8477946,
+              "name": {
+                "default": "D. Larkin"
+              },
+              "assistsToDate": 21
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/DET/8482762.png",
+          "teamAbbrev": "DET",
+          "goalsToDate": 6,
+          "awayScore": 1,
+          "homeScore": 1,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/det-tor-edvinsson-scores-goal-against-joseph-woll-6388063934112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/det-tor-edvinsson-marque-un-but-contre-joseph-woll-6388064813112",
+          "highlightClip": 6388063934112,
+          "highlightClipFr": 6388064813112,
+          "discreteClip": 6388065179112,
+          "discreteClipFr": 6388064811112
+        },
+        {
+          "period": 4,
+          "periodDescriptor": {
+            "number": 4,
+            "periodType": "OT",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "03:08",
+          "playerId": 8477946,
+          "name": {
+            "default": "D. Larkin"
+          },
+          "firstName": {
+            "default": "Dylan"
+          },
+          "lastName": {
+            "default": "Larkin"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8481542,
+              "name": {
+                "default": "M. Seider"
+              },
+              "assistsToDate": 27
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/DET/8477946.png",
+          "teamAbbrev": "DET",
+          "goalsToDate": 25,
+          "awayScore": 2,
+          "homeScore": 1,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/det-tor-larkin-scores-goal-against-joseph-woll-6388068375112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/det-tor-larkin-marque-un-but-contre-joseph-woll-6388069922112",
+          "highlightClip": 6388068375112,
+          "highlightClipFr": 6388069922112,
+          "discreteClip": 6388068488112,
+          "discreteClipFr": 6388069745112
+        }
+      ]
+    },
+    {
+      "id": 2025020789,
+      "season": 20252026,
+      "gameType": 2,
+      "gameDate": "2026-01-21",
+      "venue": {
+        "default": "Ball Arena"
+      },
+      "startTimeUTC": "2026-01-22T02:00:00Z",
+      "easternUTCOffset": "-05:00",
+      "venueUTCOffset": "-07:00",
+      "tvBroadcasts": [
+        {
+          "id": 553,
+          "market": "A",
+          "countryCode": "US",
+          "network": "Victory+",
+          "sequenceNumber": 382
+        },
+        {
+          "id": 2,
+          "market": "H",
+          "countryCode": "US",
+          "network": "ALT",
+          "sequenceNumber": 385
+        },
+        {
+          "id": 219,
+          "market": "A",
+          "countryCode": "US",
+          "network": "KCOP-13",
+          "sequenceNumber": 656
+        }
+      ],
+      "gameState": "OFF",
+      "gameScheduleState": "OK",
+      "awayTeam": {
+        "id": 24,
+        "name": {
+          "default": "Ducks"
+        },
+        "abbrev": "ANA",
+        "score": 2,
+        "sog": 17,
+        "logo": "https://assets.nhle.com/logos/nhl/svg/ANA_light.svg"
+      },
+      "homeTeam": {
+        "id": 21,
+        "name": {
+          "default": "Avalanche"
+        },
+        "abbrev": "COL",
+        "score": 1,
+        "sog": 41,
+        "logo": "https://assets.nhle.com/logos/nhl/svg/COL_light.svg"
+      },
+      "gameCenterLink": "/gamecenter/ana-vs-col/2026/01/21/2025020789",
+      "threeMinRecap": "/video/ana-at-col-recap-6388075290112",
+      "threeMinRecapFr": "/fr/video/ana-vs-col-21-01-2026-resume-6388075289112",
+      "condensedGame": "/video/ana-at-col-condensed-game-6388075093112",
+      "condensedGameFr": "/fr/video/match-condense-ducks-avalanche-21-01-2026-6388072933112",
+      "clock": {
+        "timeRemaining": "00:00",
+        "secondsRemaining": 0,
+        "running": false,
+        "inIntermission": false
+      },
+      "neutralSite": false,
+      "venueTimezone": "America/Denver",
+      "period": 5,
+      "periodDescriptor": {
+        "number": 5,
+        "periodType": "SO",
+        "maxRegulationPeriods": 3
+      },
+      "gameOutcome": {
+        "lastPeriodType": "SO"
+      },
+      "goals": [
+        {
+          "period": 2,
+          "periodDescriptor": {
+            "number": 2,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "01:27",
+          "playerId": 8479705,
+          "name": {
+            "default": "J. Viel"
+          },
+          "firstName": {
+            "default": "Jeffrey"
+          },
+          "lastName": {
+            "default": "Viel"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8483445,
+              "name": {
+                "default": "C. Gauthier"
+              },
+              "assistsToDate": 21
+            },
+            {
+              "playerId": 8475462,
+              "name": {
+                "default": "R. Gudas"
+              },
+              "assistsToDate": 9
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/ANA/8479705.png",
+          "teamAbbrev": "ANA",
+          "goalsToDate": 2,
+          "awayScore": 1,
+          "homeScore": 0,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/ana-col-viel-scores-goal-against-scott-wedgewood-6388070833112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/ana-col-viel-marque-un-but-contre-scott-wedgewood-6388070328112",
+          "highlightClip": 6388070833112,
+          "highlightClipFr": 6388070328112,
+          "discreteClip": 6388069484112,
+          "discreteClipFr": 6388069582112
+        },
+        {
+          "period": 3,
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "16:21",
+          "playerId": 8477476,
+          "name": {
+            "default": "A. Lehkonen"
+          },
+          "firstName": {
+            "default": "Artturi"
+          },
+          "lastName": {
+            "default": "Lehkonen"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8475754,
+              "name": {
+                "default": "B. Nelson"
+              },
+              "assistsToDate": 18
+            },
+            {
+              "playerId": 8470613,
+              "name": {
+                "default": "B. Burns"
+              },
+              "assistsToDate": 17
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/COL/8477476.png",
+          "teamAbbrev": "COL",
+          "goalsToDate": 17,
+          "awayScore": 1,
+          "homeScore": 1,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/ana-col-lehkonen-scores-goal-against-lukas-dostal-6388073481112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/ana-col-lehkonen-marque-un-but-contre-lukas-dostal-6388071423112",
+          "highlightClip": 6388073481112,
+          "highlightClipFr": 6388071423112,
+          "discreteClip": 6388073480112,
+          "discreteClipFr": 6388074364112
+        },
+        {
+          "period": 5,
+          "periodDescriptor": {
+            "number": 5,
+            "periodType": "SO",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "00:00",
+          "playerId": 8475798,
+          "name": {
+            "default": "M. Granlund"
+          },
+          "firstName": {
+            "default": "Mikael"
+          },
+          "lastName": {
+            "default": "Granlund"
+          },
+          "goalModifier": "none",
+          "assists": [],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/ANA/8475798.png",
+          "teamAbbrev": "ANA",
+          "awayScore": 2,
+          "homeScore": 1,
+          "strength": "ev",
+          "discreteClip": 6388073914112,
+          "discreteClipFr": 6388073228112
+        }
+      ]
+    },
+    {
+      "id": 2025020790,
+      "season": 20252026,
+      "gameType": 2,
+      "gameDate": "2026-01-21",
+      "venue": {
+        "default": "Delta Center"
+      },
+      "startTimeUTC": "2026-01-22T02:00:00Z",
+      "easternUTCOffset": "-05:00",
+      "venueUTCOffset": "-07:00",
+      "tvBroadcasts": [
+        {
+          "id": 558,
+          "market": "H",
+          "countryCode": "US",
+          "network": "Utah16",
+          "sequenceNumber": 381
+        },
+        {
+          "id": 322,
+          "market": "A",
+          "countryCode": "US",
+          "network": "NBCSP",
+          "sequenceNumber": 389
+        }
+      ],
+      "gameState": "OFF",
+      "gameScheduleState": "OK",
+      "awayTeam": {
+        "id": 4,
+        "name": {
+          "default": "Flyers"
+        },
+        "abbrev": "PHI",
+        "score": 4,
+        "sog": 29,
+        "logo": "https://assets.nhle.com/logos/nhl/svg/PHI_light.svg"
+      },
+      "homeTeam": {
+        "id": 68,
+        "name": {
+          "default": "Mammoth"
+        },
+        "abbrev": "UTA",
+        "score": 5,
+        "sog": 27,
+        "logo": "https://assets.nhle.com/logos/nhl/svg/UTA_light.svg?season=20252026"
+      },
+      "gameCenterLink": "/gamecenter/phi-vs-uta/2026/01/21/2025020790",
+      "threeMinRecap": "/video/phi-at-uta-recap-6388073740112",
+      "threeMinRecapFr": "/fr/video/phi-vs-uta-21-01-2026-resume-6388075879112",
+      "condensedGame": "/video/phi-at-uta-condensed-game-6388075007112",
+      "condensedGameFr": "/fr/video/match-condense-flyers-mammoth-21-01-2026-6388075880112",
+      "clock": {
+        "timeRemaining": "02:59",
+        "secondsRemaining": 179,
+        "running": false,
+        "inIntermission": false
+      },
+      "neutralSite": false,
+      "venueTimezone": "America/Denver",
+      "period": 4,
+      "periodDescriptor": {
+        "number": 4,
+        "periodType": "OT",
+        "maxRegulationPeriods": 3
+      },
+      "gameOutcome": {
+        "lastPeriodType": "OT",
+        "otPeriods": 1
+      },
+      "goals": [
+        {
+          "period": 1,
+          "periodDescriptor": {
+            "number": 1,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "00:30",
+          "playerId": 8481546,
+          "name": {
+            "default": "C. York"
+          },
+          "firstName": {
+            "default": "Cam"
+          },
+          "lastName": {
+            "default": "York"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8477989,
+              "name": {
+                "default": "C. Dvorak"
+              },
+              "assistsToDate": 20
+            },
+            {
+              "playerId": 8477948,
+              "name": {
+                "default": "T. Sanheim"
+              },
+              "assistsToDate": 16
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/PHI/8481546.png",
+          "teamAbbrev": "PHI",
+          "goalsToDate": 4,
+          "awayScore": 1,
+          "homeScore": 0,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/phi-uta-york-scores-goal-against-karel-vejmelka-6388068306112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/phi-uta-york-marque-un-but-contre-karel-vejmelka-6388066656112",
+          "highlightClip": 6388068306112,
+          "highlightClipFr": 6388066656112,
+          "discreteClip": 6388067706112,
+          "discreteClipFr": 6388068102112
+        },
+        {
+          "period": 1,
+          "periodDescriptor": {
+            "number": 1,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "04:36",
+          "playerId": 8477989,
+          "name": {
+            "default": "C. Dvorak"
+          },
+          "firstName": {
+            "default": "Christian"
+          },
+          "lastName": {
+            "default": "Dvorak"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8478439,
+              "name": {
+                "default": "T. Konecny"
+              },
+              "assistsToDate": 27
+            },
+            {
+              "playerId": 8478454,
+              "name": {
+                "default": "N. Juulsen"
+              },
+              "assistsToDate": 7
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/PHI/8477989.png",
+          "teamAbbrev": "PHI",
+          "goalsToDate": 11,
+          "awayScore": 2,
+          "homeScore": 0,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/christian-dvorak-with-a-goal-vs-utah-mammoth-6388068315112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/phi-uta-dvorak-marque-un-but-contre-karel-vejmelka-6388068120112",
+          "highlightClip": 6388068315112,
+          "highlightClipFr": 6388068120112,
+          "discreteClip": 6388068809112,
+          "discreteClipFr": 6388065571112
+        },
+        {
+          "period": 2,
+          "periodDescriptor": {
+            "number": 2,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "00:58",
+          "playerId": 8481553,
+          "name": {
+            "default": "B. Brink"
+          },
+          "firstName": {
+            "default": "Bobby"
+          },
+          "lastName": {
+            "default": "Brink"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8481533,
+              "name": {
+                "default": "T. Zegras"
+              },
+              "assistsToDate": 26
+            },
+            {
+              "playerId": 8482142,
+              "name": {
+                "default": "J. Drysdale"
+              },
+              "assistsToDate": 16
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/PHI/8481553.png",
+          "teamAbbrev": "PHI",
+          "goalsToDate": 12,
+          "awayScore": 3,
+          "homeScore": 0,
+          "strength": "pp",
+          "highlightClipSharingUrl": "https://nhl.com/video/phi-uta-brink-scores-ppg-against-karel-vejmelka-6388070432112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/phi-uta-brink-marque-un-but-en-a-n-contre-karel-vejmelka-6388069849112",
+          "highlightClip": 6388070432112,
+          "highlightClipFr": 6388069849112,
+          "discreteClip": 6388070826112,
+          "discreteClipFr": 6388069955112
+        },
+        {
+          "period": 2,
+          "periodDescriptor": {
+            "number": 2,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "05:35",
+          "playerId": 8482175,
+          "name": {
+            "default": "J. Peterka"
+          },
+          "firstName": {
+            "default": "JJ"
+          },
+          "lastName": {
+            "default": "Peterka"
+          },
+          "goalModifier": "none",
+          "assists": [],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/UTA/8482175.png",
+          "teamAbbrev": "UTA",
+          "goalsToDate": 17,
+          "awayScore": 3,
+          "homeScore": 1,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/phi-uta-peterka-scores-goal-against-samuel-ersson-6388069284112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/phi-uta-peterka-marque-un-but-contre-samuel-ersson-6388069094112",
+          "highlightClip": 6388069284112,
+          "highlightClipFr": 6388069094112,
+          "discreteClip": 6388070440112,
+          "discreteClipFr": 6388070147112
+        },
+        {
+          "period": 2,
+          "periodDescriptor": {
+            "number": 2,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "06:11",
+          "playerId": 8478474,
+          "name": {
+            "default": "L. Crouse"
+          },
+          "firstName": {
+            "default": "Lawson"
+          },
+          "lastName": {
+            "default": "Crouse"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8477951,
+              "name": {
+                "default": "N. Schmaltz"
+              },
+              "assistsToDate": 27
+            },
+            {
+              "playerId": 8479343,
+              "name": {
+                "default": "C. Keller"
+              },
+              "assistsToDate": 34
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/UTA/8478474.png",
+          "teamAbbrev": "UTA",
+          "goalsToDate": 13,
+          "awayScore": 3,
+          "homeScore": 2,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/phi-uta-crouse-scores-goal-against-samuel-ersson-6388071736112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/phi-uta-crouse-marque-un-but-contre-samuel-ersson-6388070156112",
+          "highlightClip": 6388071736112,
+          "highlightClipFr": 6388070156112,
+          "discreteClip": 6388069788112,
+          "discreteClipFr": 6388070748112
+        },
+        {
+          "period": 2,
+          "periodDescriptor": {
+            "number": 2,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "10:28",
+          "playerId": 8477989,
+          "name": {
+            "default": "C. Dvorak"
+          },
+          "firstName": {
+            "default": "Christian"
+          },
+          "lastName": {
+            "default": "Dvorak"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8481533,
+              "name": {
+                "default": "T. Zegras"
+              },
+              "assistsToDate": 27
+            },
+            {
+              "playerId": 8482142,
+              "name": {
+                "default": "J. Drysdale"
+              },
+              "assistsToDate": 17
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/PHI/8477989.png",
+          "teamAbbrev": "PHI",
+          "goalsToDate": 12,
+          "awayScore": 4,
+          "homeScore": 2,
+          "strength": "pp",
+          "highlightClipSharingUrl": "https://nhl.com/video/phi-uta-dvorak-scores-ppg-against-karel-vejmelka-6388070203112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/phi-uta-dvorak-marque-un-but-en-a-n-contre-karel-vejmelka-6388070963112",
+          "highlightClip": 6388070203112,
+          "highlightClipFr": 6388070963112,
+          "discreteClip": 6388071566112,
+          "discreteClipFr": 6388071459112
+        },
+        {
+          "period": 3,
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "12:47",
+          "playerId": 8480849,
+          "name": {
+            "default": "B. Hayton"
+          },
+          "firstName": {
+            "default": "Barrett"
+          },
+          "lastName": {
+            "default": "Hayton"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8482699,
+              "name": {
+                "default": "D. Guenther"
+              },
+              "assistsToDate": 19
+            },
+            {
+              "playerId": 8477951,
+              "name": {
+                "default": "N. Schmaltz"
+              },
+              "assistsToDate": 28
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/UTA/8480849.png",
+          "teamAbbrev": "UTA",
+          "goalsToDate": 6,
+          "awayScore": 4,
+          "homeScore": 3,
+          "strength": "pp",
+          "highlightClipSharingUrl": "https://nhl.com/video/phi-uta-hayton-scores-ppg-against-samuel-ersson-6388072827112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/phi-uta-hayton-marque-un-but-en-a-n-contre-samuel-ersson-6388072538112",
+          "highlightClip": 6388072827112,
+          "highlightClipFr": 6388072538112,
+          "discreteClip": 6388072826112,
+          "discreteClipFr": 6388074976112
+        },
+        {
+          "period": 3,
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "19:25",
+          "playerId": 8479343,
+          "name": {
+            "default": "C. Keller"
+          },
+          "firstName": {
+            "default": "Clayton"
+          },
+          "lastName": {
+            "default": "Keller"
+          },
+          "goalModifier": "none",
+          "assists": [],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/UTA/8479343.png",
+          "teamAbbrev": "UTA",
+          "goalsToDate": 14,
+          "awayScore": 4,
+          "homeScore": 4,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/phi-uta-keller-scores-goal-against-samuel-ersson-6388074705112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/phi-uta-keller-marque-un-but-contre-samuel-ersson-6388073807112",
+          "highlightClip": 6388074705112,
+          "highlightClipFr": 6388073807112,
+          "discreteClip": 6388073801112,
+          "discreteClipFr": 6388072926112
+        },
+        {
+          "period": 4,
+          "periodDescriptor": {
+            "number": 4,
+            "periodType": "OT",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "02:01",
+          "playerId": 8479343,
+          "name": {
+            "default": "C. Keller"
+          },
+          "firstName": {
+            "default": "Clayton"
+          },
+          "lastName": {
+            "default": "Keller"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8482699,
+              "name": {
+                "default": "D. Guenther"
+              },
+              "assistsToDate": 20
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/UTA/8479343.png",
+          "teamAbbrev": "UTA",
+          "goalsToDate": 15,
+          "awayScore": 4,
+          "homeScore": 5,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/phi-uta-keller-scores-goal-against-samuel-ersson-6388074804112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/phi-uta-keller-marque-un-but-contre-samuel-ersson-6388072943112",
+          "highlightClip": 6388074804112,
+          "highlightClipFr": 6388072943112,
+          "discreteClip": 6388073615112,
+          "discreteClipFr": 6388073726112
+        }
+      ]
+    },
+    {
+      "id": 2025020791,
+      "season": 20252026,
+      "gameType": 2,
+      "gameDate": "2026-01-21",
+      "venue": {
+        "default": "Scotiabank Saddledome"
+      },
+      "startTimeUTC": "2026-01-22T02:30:00Z",
+      "easternUTCOffset": "-05:00",
+      "venueUTCOffset": "-07:00",
+      "tvBroadcasts": [
+        {
+          "id": 289,
+          "market": "N",
+          "countryCode": "CA",
+          "network": "SNW",
+          "sequenceNumber": 34
+        },
+        {
+          "id": 284,
+          "market": "N",
+          "countryCode": "CA",
+          "network": "SN1",
+          "sequenceNumber": 102
+        },
+        {
+          "id": 281,
+          "market": "N",
+          "countryCode": "CA",
+          "network": "TVAS",
+          "sequenceNumber": 109
+        },
+        {
+          "id": 528,
+          "market": "A",
+          "countryCode": "US",
+          "network": "SN-PIT",
+          "sequenceNumber": 384
+        }
+      ],
+      "gameState": "OFF",
+      "gameScheduleState": "OK",
+      "awayTeam": {
+        "id": 5,
+        "name": {
+          "default": "Penguins"
+        },
+        "abbrev": "PIT",
+        "score": 4,
+        "sog": 25,
+        "logo": "https://assets.nhle.com/logos/nhl/svg/PIT_light.svg"
+      },
+      "homeTeam": {
+        "id": 20,
+        "name": {
+          "default": "Flames"
+        },
+        "abbrev": "CGY",
+        "score": 1,
+        "sog": 19,
+        "logo": "https://assets.nhle.com/logos/nhl/svg/CGY_light.svg"
+      },
+      "gameCenterLink": "/gamecenter/pit-vs-cgy/2026/01/21/2025020791",
+      "threeMinRecap": "/video/pit-at-cgy-recap-6388074356112",
+      "threeMinRecapFr": "/fr/video/pit-vs-cgy-21-01-2026-resume-6388074630112",
+      "condensedGame": "/video/pit-at-cgy-condensed-game-6388075024112",
+      "condensedGameFr": "/fr/video/match-condense-penguins-flames-21-01-2026-6388075596112",
+      "clock": {
+        "timeRemaining": "00:00",
+        "secondsRemaining": 0,
+        "running": false,
+        "inIntermission": false
+      },
+      "neutralSite": false,
+      "venueTimezone": "US/Mountain",
+      "period": 3,
+      "periodDescriptor": {
+        "number": 3,
+        "periodType": "REG",
+        "maxRegulationPeriods": 3
+      },
+      "gameOutcome": {
+        "lastPeriodType": "REG"
+      },
+      "goals": [
+        {
+          "period": 1,
+          "periodDescriptor": {
+            "number": 1,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "07:49",
+          "playerId": 8471215,
+          "name": {
+            "default": "E. Malkin"
+          },
+          "firstName": {
+            "default": "Evgeni",
+            "cs": "Jevgenij",
+            "fi": "Jevgeni",
+            "sk": "Jevgenij"
+          },
+          "lastName": {
+            "default": "Malkin"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8478854,
+              "name": {
+                "default": "R. Shea"
+              },
+              "assistsToDate": 15
+            },
+            {
+              "playerId": 8481030,
+              "name": {
+                "default": "J. St. Ivany"
+              },
+              "assistsToDate": 4
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/PIT/8471215.png",
+          "teamAbbrev": "PIT",
+          "goalsToDate": 11,
+          "awayScore": 1,
+          "homeScore": 0,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/pit-cgy-malkin-scores-goal-against-dustin-wolf-6388070020112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/pit-cgy-malkin-marque-un-but-contre-dustin-wolf-6388068062112",
+          "highlightClip": 6388070020112,
+          "highlightClipFr": 6388068062112,
+          "discreteClip": 6388069552112,
+          "discreteClipFr": 6388068476112
+        },
+        {
+          "period": 2,
+          "periodDescriptor": {
+            "number": 2,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "12:32",
+          "playerId": 8482475,
+          "name": {
+            "default": "E. Chinakhov",
+            "cs": "E. Činachov",
+            "fi": "E. Tshinahov",
+            "sk": "E. Činachov"
+          },
+          "firstName": {
+            "default": "Egor"
+          },
+          "lastName": {
+            "default": "Chinakhov",
+            "cs": "Činachov",
+            "fi": "Tshinahov",
+            "sk": "Činachov"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8478438,
+              "name": {
+                "default": "T. Novak"
+              },
+              "assistsToDate": 17
+            },
+            {
+              "playerId": 8471215,
+              "name": {
+                "default": "E. Malkin"
+              },
+              "assistsToDate": 26
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/PIT/8482475.png",
+          "teamAbbrev": "PIT",
+          "goalsToDate": 7,
+          "awayScore": 2,
+          "homeScore": 0,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/pit-cgy-chinakhov-scores-goal-against-dustin-wolf-6388071305112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/pit-cgy-chinakhov-marque-un-but-contre-dustin-wolf-6388072854112",
+          "highlightClip": 6388071305112,
+          "highlightClipFr": 6388072854112,
+          "discreteClip": 6388071699112,
+          "discreteClipFr": 6388072673112
+        },
+        {
+          "period": 2,
+          "periodDescriptor": {
+            "number": 2,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "19:57",
+          "playerId": 8481068,
+          "name": {
+            "default": "Y. Sharangovich",
+            "cs": "J. Šarangovič",
+            "fi": "J. Sharanhovitsh",
+            "sk": "J. Šarangovič"
+          },
+          "firstName": {
+            "default": "Yegor",
+            "cs": "Jegor",
+            "fi": "Jahor",
+            "sk": "Jegor"
+          },
+          "lastName": {
+            "default": "Sharangovich",
+            "cs": "Šarangovič",
+            "fi": "Sharanhovitsh",
+            "sk": "Šarangovič"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8480727,
+              "name": {
+                "default": "Z. Whitecloud"
+              },
+              "assistsToDate": 6
+            },
+            {
+              "playerId": 8480860,
+              "name": {
+                "default": "K. Bahl"
+              },
+              "assistsToDate": 9
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/CGY/8481068.png",
+          "teamAbbrev": "CGY",
+          "goalsToDate": 11,
+          "awayScore": 2,
+          "homeScore": 1,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/pit-cgy-sharangovich-scores-goal-against-stuart-skinner-6388073059112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/pit-cgy-sharangovich-marque-un-but-contre-stuart-skinner-6388073353112",
+          "highlightClip": 6388073059112,
+          "highlightClipFr": 6388073353112,
+          "discreteClip": 6388071111112,
+          "discreteClipFr": 6388071327112
+        },
+        {
+          "period": 3,
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "00:50",
+          "playerId": 8475810,
+          "name": {
+            "default": "B. Rust"
+          },
+          "firstName": {
+            "default": "Bryan"
+          },
+          "lastName": {
+            "default": "Rust"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8471675,
+              "name": {
+                "default": "S. Crosby"
+              },
+              "assistsToDate": 30
+            },
+            {
+              "playerId": 8476483,
+              "name": {
+                "default": "R. Rakell"
+              },
+              "assistsToDate": 13
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/PIT/8475810.png",
+          "teamAbbrev": "PIT",
+          "goalsToDate": 18,
+          "awayScore": 3,
+          "homeScore": 1,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/pit-cgy-rust-scores-goal-against-dustin-wolf-6388074110112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/pit-cgy-rust-marque-un-but-contre-dustin-wolf-6388074207112",
+          "highlightClip": 6388074110112,
+          "highlightClipFr": 6388074207112,
+          "discreteClip": 6388073350112,
+          "discreteClipFr": 6388073515112
+        },
+        {
+          "period": 3,
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "09:19",
+          "playerId": 8478438,
+          "name": {
+            "default": "T. Novak"
+          },
+          "firstName": {
+            "default": "Tommy",
+            "cs": "Thomas",
+            "de": "Thomas",
+            "es": "Thomas",
+            "fi": "Thomas",
+            "sk": "Thomas",
+            "sv": "Thomas"
+          },
+          "lastName": {
+            "default": "Novak"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8481030,
+              "name": {
+                "default": "J. St. Ivany"
+              },
+              "assistsToDate": 5
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/PIT/8478438.png",
+          "teamAbbrev": "PIT",
+          "goalsToDate": 9,
+          "awayScore": 4,
+          "homeScore": 1,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/pit-cgy-novak-scores-goal-against-dustin-wolf-6388074493112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/pit-cgy-novak-marque-un-but-contre-dustin-wolf-6388073333112",
+          "highlightClip": 6388074493112,
+          "highlightClipFr": 6388073333112,
+          "discreteClip": 6388074311112,
+          "discreteClipFr": 6388073900112
+        }
+      ]
+    },
+    {
+      "id": 2025020793,
+      "season": 20252026,
+      "gameType": 2,
+      "gameDate": "2026-01-21",
+      "venue": {
+        "default": "Climate Pledge Arena"
+      },
+      "startTimeUTC": "2026-01-22T02:30:00Z",
+      "easternUTCOffset": "-05:00",
+      "venueUTCOffset": "-08:00",
+      "tvBroadcasts": [
+        {
+          "id": 385,
+          "market": "N",
+          "countryCode": "US",
+          "network": "TNT",
+          "sequenceNumber": 11
+        },
+        {
+          "id": 501,
+          "market": "N",
+          "countryCode": "US",
+          "network": "truTV",
+          "sequenceNumber": 14
+        },
+        {
+          "id": 578,
+          "market": "N",
+          "countryCode": "US",
+          "network": "HBO MAX",
+          "sequenceNumber": 19
+        }
+      ],
+      "gameState": "OFF",
+      "gameScheduleState": "OK",
+      "awayTeam": {
+        "id": 2,
+        "name": {
+          "default": "Islanders"
+        },
+        "abbrev": "NYI",
+        "score": 1,
+        "sog": 25,
+        "logo": "https://assets.nhle.com/logos/nhl/svg/NYI_light.svg"
+      },
+      "homeTeam": {
+        "id": 55,
+        "name": {
+          "default": "Kraken"
+        },
+        "abbrev": "SEA",
+        "score": 4,
+        "sog": 25,
+        "logo": "https://assets.nhle.com/logos/nhl/svg/SEA_light.svg"
+      },
+      "gameCenterLink": "/gamecenter/nyi-vs-sea/2026/01/21/2025020793",
+      "threeMinRecap": "/video/nyi-at-sea-recap-6388075809112",
+      "threeMinRecapFr": "/fr/video/nyi-vs-sea-21-01-2026-resume-6388074243112",
+      "condensedGame": "/video/nyi-at-sea-condensed-game-6388075411112",
+      "condensedGameFr": "/fr/video/match-condense-islanders-kraken-21-01-2026-6388075910112",
+      "clock": {
+        "timeRemaining": "00:00",
+        "secondsRemaining": 0,
+        "running": false,
+        "inIntermission": false
+      },
+      "neutralSite": false,
+      "venueTimezone": "US/Pacific",
+      "period": 3,
+      "periodDescriptor": {
+        "number": 3,
+        "periodType": "REG",
+        "maxRegulationPeriods": 3
+      },
+      "gameOutcome": {
+        "lastPeriodType": "REG"
+      },
+      "goals": [
+        {
+          "period": 1,
+          "periodDescriptor": {
+            "number": 1,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "02:38",
+          "playerId": 8477407,
+          "name": {
+            "default": "A. Duclair"
+          },
+          "firstName": {
+            "default": "Anthony"
+          },
+          "lastName": {
+            "default": "Duclair"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8484221,
+              "name": {
+                "default": "C. Ritchie"
+              },
+              "assistsToDate": 8
+            },
+            {
+              "playerId": 8478445,
+              "name": {
+                "default": "M. Barzal"
+              },
+              "assistsToDate": 30
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/NYI/8477407.png",
+          "teamAbbrev": "NYI",
+          "goalsToDate": 12,
+          "awayScore": 1,
+          "homeScore": 0,
+          "strength": "pp",
+          "highlightClipSharingUrl": "https://nhl.com/video/nyi-sea-duclair-scores-ppg-against-philipp-grubauer-6388069467112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/nyi-sea-duclair-marque-un-but-en-a-n-contre-philipp-grubauer-6388070119112",
+          "highlightClip": 6388069467112,
+          "highlightClipFr": 6388070119112,
+          "discreteClip": 6388067388112,
+          "discreteClipFr": 6388068777112
+        },
+        {
+          "period": 1,
+          "periodDescriptor": {
+            "number": 1,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "10:40",
+          "playerId": 8482665,
+          "name": {
+            "default": "M. Beniers"
+          },
+          "firstName": {
+            "default": "Matty"
+          },
+          "lastName": {
+            "default": "Beniers"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8478407,
+              "name": {
+                "default": "V. Dunn"
+              },
+              "assistsToDate": 24
+            },
+            {
+              "playerId": 8477955,
+              "name": {
+                "default": "J. McCann"
+              },
+              "assistsToDate": 10
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/SEA/8482665.png",
+          "teamAbbrev": "SEA",
+          "goalsToDate": 11,
+          "awayScore": 1,
+          "homeScore": 1,
+          "strength": "pp",
+          "highlightClipSharingUrl": "https://nhl.com/video/nyi-sea-beniers-scores-ppg-against-ilya-sorokin-6388068988112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/nyi-sea-beniers-marque-un-but-en-a-n-contre-ilya-sorokin-6388069498112",
+          "highlightClip": 6388068988112,
+          "highlightClipFr": 6388069498112,
+          "discreteClip": 6388069186112,
+          "discreteClipFr": 6388070631112
+        },
+        {
+          "period": 2,
+          "periodDescriptor": {
+            "number": 2,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "13:37",
+          "playerId": 8478407,
+          "name": {
+            "default": "V. Dunn"
+          },
+          "firstName": {
+            "default": "Vince"
+          },
+          "lastName": {
+            "default": "Dunn"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8482751,
+              "name": {
+                "default": "R. Winterton"
+              },
+              "assistsToDate": 10
+            },
+            {
+              "playerId": 8483570,
+              "name": {
+                "default": "B. Meyers"
+              },
+              "assistsToDate": 6
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/SEA/8478407.png",
+          "teamAbbrev": "SEA",
+          "goalsToDate": 7,
+          "awayScore": 1,
+          "homeScore": 2,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/nyi-sea-dunn-scores-goal-against-ilya-sorokin-6388072779112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/nyi-sea-dunn-marque-un-but-contre-ilya-sorokin-6388071834112",
+          "highlightClip": 6388072779112,
+          "highlightClipFr": 6388071834112,
+          "discreteClip": 6388073060112,
+          "discreteClipFr": 6388071618112
+        },
+        {
+          "period": 2,
+          "periodDescriptor": {
+            "number": 2,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "16:28",
+          "playerId": 8481554,
+          "name": {
+            "default": "K. Kakko"
+          },
+          "firstName": {
+            "default": "Kaapo"
+          },
+          "lastName": {
+            "default": "Kakko"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8475768,
+              "name": {
+                "default": "J. Schwartz"
+              },
+              "assistsToDate": 9
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/SEA/8481554.png",
+          "teamAbbrev": "SEA",
+          "goalsToDate": 5,
+          "awayScore": 1,
+          "homeScore": 3,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/nyi-sea-kakko-scores-goal-against-ilya-sorokin-6388072789112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/nyi-sea-kakko-marque-un-but-contre-ilya-sorokin-6388072315112",
+          "highlightClip": 6388072789112,
+          "highlightClipFr": 6388072315112,
+          "discreteClip": 6388073075112,
+          "discreteClipFr": 6388071631112
+        },
+        {
+          "period": 3,
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "16:32",
+          "playerId": 8477955,
+          "name": {
+            "default": "J. McCann"
+          },
+          "firstName": {
+            "default": "Jared"
+          },
+          "lastName": {
+            "default": "McCann"
+          },
+          "goalModifier": "empty-net",
+          "assists": [
+            {
+              "playerId": 8477986,
+              "name": {
+                "default": "B. Montour"
+              },
+              "assistsToDate": 13
+            },
+            {
+              "playerId": 8475831,
+              "name": {
+                "default": "P. Grubauer"
+              },
+              "assistsToDate": 1
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/SEA/8477955.png",
+          "teamAbbrev": "SEA",
+          "goalsToDate": 11,
+          "awayScore": 1,
+          "homeScore": 4,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/nyi-sea-mccann-scores-empty-net-goal-6388074635112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/nyi-sea-mccann-sea-marque-un-but-dans-un-filet-desert-6388076282112",
+          "highlightClip": 6388074635112,
+          "highlightClipFr": 6388076282112,
+          "discreteClip": 6388075109112,
+          "discreteClipFr": 6388073945112
+        }
+      ]
+    },
+    {
+      "id": 2025020792,
+      "season": 20252026,
+      "gameType": 2,
+      "gameDate": "2026-01-21",
+      "venue": {
+        "default": "Rogers Arena"
+      },
+      "startTimeUTC": "2026-01-22T03:00:00Z",
+      "easternUTCOffset": "-05:00",
+      "venueUTCOffset": "-08:00",
+      "tvBroadcasts": [
+        {
+          "id": 290,
+          "market": "H",
+          "countryCode": "CA",
+          "network": "SNP",
+          "sequenceNumber": 33
+        },
+        {
+          "id": 517,
+          "market": "A",
+          "countryCode": "US",
+          "network": "MNMT",
+          "sequenceNumber": 396
+        }
+      ],
+      "gameState": "OFF",
+      "gameScheduleState": "OK",
+      "awayTeam": {
+        "id": 15,
+        "name": {
+          "default": "Capitals"
+        },
+        "abbrev": "WSH",
+        "score": 3,
+        "sog": 32,
+        "logo": "https://assets.nhle.com/logos/nhl/svg/WSH_secondary_light.svg"
+      },
+      "homeTeam": {
+        "id": 23,
+        "name": {
+          "default": "Canucks"
+        },
+        "abbrev": "VAN",
+        "score": 4,
+        "sog": 25,
+        "logo": "https://assets.nhle.com/logos/nhl/svg/VAN_light.svg"
+      },
+      "gameCenterLink": "/gamecenter/wsh-vs-van/2026/01/21/2025020792",
+      "threeMinRecap": "/video/wsh-at-van-recap-6388076020112",
+      "threeMinRecapFr": "/fr/video/wsh-vs-van-21-01-2026-resume-6388075238112",
+      "condensedGame": "/video/wsh-at-van-condensed-game-6388075544112",
+      "condensedGameFr": "/fr/video/match-condense-capitals-canucks-21-01-2026-6388074460112",
+      "clock": {
+        "timeRemaining": "00:00",
+        "secondsRemaining": 0,
+        "running": false,
+        "inIntermission": false
+      },
+      "neutralSite": false,
+      "venueTimezone": "America/Vancouver",
+      "period": 3,
+      "periodDescriptor": {
+        "number": 3,
+        "periodType": "REG",
+        "maxRegulationPeriods": 3
+      },
+      "gameOutcome": {
+        "lastPeriodType": "REG"
+      },
+      "goals": [
+        {
+          "period": 1,
+          "periodDescriptor": {
+            "number": 1,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "08:25",
+          "playerId": 8478440,
+          "name": {
+            "default": "D. Strome"
+          },
+          "firstName": {
+            "default": "Dylan"
+          },
+          "lastName": {
+            "default": "Strome"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8476880,
+              "name": {
+                "default": "T. Wilson"
+              },
+              "assistsToDate": 21
+            },
+            {
+              "playerId": 8474590,
+              "name": {
+                "default": "J. Carlson"
+              },
+              "assistsToDate": 30
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/WSH/8478440.png",
+          "teamAbbrev": "WSH",
+          "goalsToDate": 12,
+          "awayScore": 1,
+          "homeScore": 0,
+          "strength": "pp",
+          "highlightClipSharingUrl": "https://nhl.com/video/wsh-van-strome-scores-ppg-against-kevin-lankinen-6388070251112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/wsh-van-strome-marque-un-but-en-a-n-contre-kevin-lankinen-6388070639112",
+          "highlightClip": 6388070251112,
+          "highlightClipFr": 6388070639112,
+          "discreteClip": 6388069790112,
+          "discreteClipFr": 6388069791112
+        },
+        {
+          "period": 1,
+          "periodDescriptor": {
+            "number": 1,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "09:43",
+          "playerId": 8482088,
+          "name": {
+            "default": "J. Sourdif"
+          },
+          "firstName": {
+            "default": "Justin"
+          },
+          "lastName": {
+            "default": "Sourdif"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8478440,
+              "name": {
+                "default": "D. Strome"
+              },
+              "assistsToDate": 27
+            },
+            {
+              "playerId": 8471214,
+              "name": {
+                "default": "A. Ovechkin",
+                "cs": "A. Ovečkin",
+                "fi": "A. Ovetshkin",
+                "sk": "A. Ovečkin"
+              },
+              "assistsToDate": 23
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/WSH/8482088.png",
+          "teamAbbrev": "WSH",
+          "goalsToDate": 10,
+          "awayScore": 2,
+          "homeScore": 0,
+          "strength": "pp",
+          "highlightClipSharingUrl": "https://nhl.com/video/wsh-van-sourdif-scores-ppg-against-kevin-lankinen-6388069874112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/wsh-van-sourdif-marque-un-but-en-a-n-contre-kevin-lankinen-6388070553112",
+          "highlightClip": 6388069874112,
+          "highlightClipFr": 6388070553112,
+          "discreteClip": 6388072038112,
+          "discreteClipFr": 6388071448112
+        },
+        {
+          "period": 1,
+          "periodDescriptor": {
+            "number": 1,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "13:32",
+          "playerId": 8478444,
+          "name": {
+            "default": "B. Boeser"
+          },
+          "firstName": {
+            "default": "Brock"
+          },
+          "lastName": {
+            "default": "Boeser"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8480144,
+              "name": {
+                "default": "D. Kampf",
+                "cs": "D. Kämpf",
+                "fi": "D. Kämpf",
+                "sk": "D. Kämpf",
+                "sv": "D. Kämpf"
+              },
+              "assistsToDate": 3
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/VAN/8478444.png",
+          "teamAbbrev": "VAN",
+          "goalsToDate": 11,
+          "awayScore": 2,
+          "homeScore": 1,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/wsh-van-boeser-scores-goal-against-logan-thompson-6388071860112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/wsh-van-boeser-marque-un-but-contre-logan-thompson-6388070970112",
+          "highlightClip": 6388071860112,
+          "highlightClipFr": 6388070970112,
+          "discreteClip": 6388071667112,
+          "discreteClipFr": 6388070198112
+        },
+        {
+          "period": 1,
+          "periodDescriptor": {
+            "number": 1,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "18:22",
+          "playerId": 8475169,
+          "name": {
+            "default": "E. Kane"
+          },
+          "firstName": {
+            "default": "Evander"
+          },
+          "lastName": {
+            "default": "Kane"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8478498,
+              "name": {
+                "default": "J. DeBrusk"
+              },
+              "assistsToDate": 11
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/VAN/8475169.png",
+          "teamAbbrev": "VAN",
+          "goalsToDate": 9,
+          "awayScore": 2,
+          "homeScore": 2,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/wsh-van-kane-scores-goal-against-logan-thompson-6388072647112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/wsh-van-kane-marque-un-but-contre-logan-thompson-6388070218112",
+          "highlightClip": 6388072647112,
+          "highlightClipFr": 6388070218112,
+          "discreteClip": 6388070673112,
+          "discreteClipFr": 6388071587112
+        },
+        {
+          "period": 2,
+          "periodDescriptor": {
+            "number": 2,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "08:58",
+          "playerId": 8482055,
+          "name": {
+            "default": "D. O'Connor"
+          },
+          "firstName": {
+            "default": "Drew"
+          },
+          "lastName": {
+            "default": "O'Connor"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8480144,
+              "name": {
+                "default": "D. Kampf",
+                "cs": "D. Kämpf",
+                "fi": "D. Kämpf",
+                "sk": "D. Kämpf",
+                "sv": "D. Kämpf"
+              },
+              "assistsToDate": 4
+            },
+            {
+              "playerId": 8478444,
+              "name": {
+                "default": "B. Boeser"
+              },
+              "assistsToDate": 13
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/VAN/8482055.png",
+          "teamAbbrev": "VAN",
+          "goalsToDate": 12,
+          "awayScore": 2,
+          "homeScore": 3,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/wsh-van-o-connor-scores-goal-against-logan-thompson-6388072113112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/wsh-van-o-connor-marque-un-but-contre-logan-thompson-6388072025112",
+          "highlightClip": 6388072113112,
+          "highlightClipFr": 6388072025112,
+          "discreteClip": 6388072109112,
+          "discreteClipFr": 6388071216112
+        },
+        {
+          "period": 2,
+          "periodDescriptor": {
+            "number": 2,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "11:43",
+          "playerId": 8479425,
+          "name": {
+            "default": "F. Hronek"
+          },
+          "firstName": {
+            "default": "Filip"
+          },
+          "lastName": {
+            "default": "Hronek"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8478498,
+              "name": {
+                "default": "J. DeBrusk"
+              },
+              "assistsToDate": 12
+            },
+            {
+              "playerId": 8484240,
+              "name": {
+                "default": "T. Willander"
+              },
+              "assistsToDate": 11
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/VAN/8479425.png",
+          "teamAbbrev": "VAN",
+          "goalsToDate": 4,
+          "awayScore": 2,
+          "homeScore": 4,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/wsh-van-hronek-scores-goal-against-logan-thompson-6388072628112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/wsh-van-hronek-marque-un-but-contre-logan-thompson-6388074471112",
+          "highlightClip": 6388072628112,
+          "highlightClipFr": 6388074471112,
+          "discreteClip": 6388072723112,
+          "discreteClipFr": 6388074768112
+        },
+        {
+          "period": 3,
+          "periodDescriptor": {
+            "number": 3,
+            "periodType": "REG",
+            "maxRegulationPeriods": 3
+          },
+          "timeInPeriod": "16:37",
+          "playerId": 8478440,
+          "name": {
+            "default": "D. Strome"
+          },
+          "firstName": {
+            "default": "Dylan"
+          },
+          "lastName": {
+            "default": "Strome"
+          },
+          "goalModifier": "none",
+          "assists": [
+            {
+              "playerId": 8482088,
+              "name": {
+                "default": "J. Sourdif"
+              },
+              "assistsToDate": 11
+            },
+            {
+              "playerId": 8474590,
+              "name": {
+                "default": "J. Carlson"
+              },
+              "assistsToDate": 31
+            }
+          ],
+          "mugshot": "https://assets.nhle.com/mugs/nhl/20252026/WSH/8478440.png",
+          "teamAbbrev": "WSH",
+          "goalsToDate": 13,
+          "awayScore": 3,
+          "homeScore": 4,
+          "strength": "ev",
+          "highlightClipSharingUrl": "https://nhl.com/video/wsh-van-strome-scores-goal-against-kevin-lankinen-6388075054112",
+          "highlightClipSharingUrlFr": "https://nhl.com/fr/video/wsh-van-strome-marque-un-but-contre-kevin-lankinen-6388074551112",
+          "highlightClip": 6388075054112,
+          "highlightClipFr": 6388074551112,
+          "discreteClip": 6388076111112,
+          "discreteClipFr": 6388076892112
+        }
+      ]
+    }
+  ]
+}

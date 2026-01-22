@@ -31,17 +31,17 @@ class TestRemoveExistingPartition:
         """Should return row count and success status when deletion succeeds"""
         # Mock return value from DuckDB delete statement
         mock_conn = MagicMock()
-        mock_conn.execute.return_value.fetchall.return_value = [(5,)]
+        mock_conn.execute.return_value.fetchall.return_value = [(6,)]
         mock_duckdb.get_connection.return_value.__enter__.return_value = mock_conn
 
         remove_existing_partition(mock_duckdb, mock_context)
 
         # Assertions
         mock_conn.execute.assert_called_once_with(
-            "DELETE FROM test_schema.test_table WHERE partition_key = '2026-01-19'"
+            "DELETE FROM test_schema.test_table WHERE partition_key = '2026-01-21'"
         )
         mock_context.log.info.assert_called_once_with(
-            "Rows deleted with partition key '2026-01-19': 5"
+            "Rows deleted with partition key '2026-01-21': 6"
         )
         mock_context.log.warning.assert_not_called()
 
@@ -54,7 +54,7 @@ class TestRemoveExistingPartition:
         remove_existing_partition(mock_duckdb, mock_context)
 
         mock_context.log.info.assert_called_once_with(
-            "Rows deleted with partition key '2026-01-19': 0"
+            "Rows deleted with partition key '2026-01-21': 0"
         )
 
     def test_table_does_not_exist(self, mock_duckdb, mock_context):
