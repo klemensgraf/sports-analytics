@@ -3,7 +3,7 @@ import pandas as pd
 from dagster_duckdb import DuckDBResource
 from pandas import json_normalize
 
-from sports_analytics.defs.hockey.partitions import games_daily_partition
+from sports_analytics.defs.nhl.partitions import games_daily_partition
 from sports_analytics.utils.apis import NhlAPIResource
 from sports_analytics.utils.helpers import remove_existing_partition, to_snake_case
 
@@ -40,3 +40,21 @@ def nhl_games_final(
         games = games[games["game_state"] == "OFF"]
 
     return pd.DataFrame(games)
+
+
+@dg.asset(group_name="raw", kinds={"python"})
+def nhl_standings_now(
+    context: dg.AssetExecutionContext, nhl_api: NhlAPIResource
+) -> pd.DataFrame:
+    """Get current standings and basic team stats"""
+    # Calling API endpoint
+    url = "/standings/now"
+    result = nhl_api.get(url)
+
+    # Flatten raw data
+    standings = json_normalize(result.get("standings", []), sep="_")
+
+    # Converting column name to snake case
+    standings.columns = [to_snake_case(c) for c in standings.columns]
+
+    return pd.DataFrame(standings)

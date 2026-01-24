@@ -8,10 +8,10 @@ class TestNhlAPIResource:
 
     @patch("sports_analytics.utils.apis.get")
     def test_get_successful_json_response(
-        self, mock_get, mock_nhl_api, mock_nhl_api_response
+        self, mock_get, mock_nhl_api, mock_nhl_games_final_response
     ):
         """Should return parsed JSON for successful response"""
-        mock_get.return_value = mock_nhl_api_response
+        mock_get.return_value = mock_nhl_games_final_response
 
         result = mock_nhl_api.get(self.endpoint_url)
 
@@ -27,7 +27,7 @@ class TestNhlAPIResource:
         self, mock_get, mock_nhl_api, mock_nhl_api_response_empty
     ):
         """Should hanlde empty events list"""
-        mock_get.return_value = mock_nhl_api_response_empty
+        mock_get.return_value = mock_nhl_api_response_empty("games")
 
         result = mock_nhl_api.get(self.endpoint_url)
 
