@@ -13,9 +13,8 @@ def mock_nhl_api():
 
 
 @pytest.fixture
-def mock_nhl_api_response(nhl_score_by_date_response):
+def mock_nhl_api_response():
     response = Mock()
-    response.json.return_value = nhl_score_by_date_response
     response.raise_for_status.return_value = None
     response.status_code = 200
     response.headers = {"content-type": "application/json"}
@@ -23,11 +22,24 @@ def mock_nhl_api_response(nhl_score_by_date_response):
 
 
 @pytest.fixture
-def mock_nhl_api_response_empty(
-    mock_nhl_api_response, nhl_score_by_date_response_empty
-):
-    mock_nhl_api_response.json.return_value = nhl_score_by_date_response_empty
+def mock_nhl_games_final_response(mock_nhl_api_response, nhl_score_by_date_response):
+    mock_nhl_api_response.json.return_value = nhl_score_by_date_response
     return mock_nhl_api_response
+
+
+@pytest.fixture
+def mock_nhl_standings_now_response(mock_nhl_api_response, nhl_standings_now_response):
+    mock_nhl_api_response.json.return_value = nhl_standings_now_response
+    return mock_nhl_api_response
+
+
+@pytest.fixture
+def mock_nhl_api_response_empty(mock_nhl_api_response):
+    def _make_response(key):
+        mock_nhl_api_response.json.return_value = {key: []}
+        return mock_nhl_api_response
+
+    return _make_response
 
 
 @pytest.fixture
@@ -59,5 +71,8 @@ def nhl_score_by_date_response():
 
 
 @pytest.fixture
-def nhl_score_by_date_response_empty():
-    return {"games": []}
+def nhl_standings_now_response():
+    """Load example from file"""
+    fixture_path = Path(__file__).parent / "fixtures" / "nhl_standings_now.json"
+    with open(fixture_path, "r") as f:
+        return json.load(f)
