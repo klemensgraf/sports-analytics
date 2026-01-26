@@ -13,9 +13,8 @@ def mock_nhl_api():
 
 
 @pytest.fixture
-def mock_nhl_api_response(nhl_score_by_date_response):
+def mock_nhl_api_response():
     response = Mock()
-    response.json.return_value = nhl_score_by_date_response
     response.raise_for_status.return_value = None
     response.status_code = 200
     response.headers = {"content-type": "application/json"}
@@ -23,16 +22,54 @@ def mock_nhl_api_response(nhl_score_by_date_response):
 
 
 @pytest.fixture
-def mock_nhl_api_response_empty(
-    mock_nhl_api_response, nhl_score_by_date_response_empty
-):
-    mock_nhl_api_response.json.return_value = nhl_score_by_date_response_empty
+def mock_nhl_games_final_response(mock_nhl_api_response):
+    """Mocks response from API with example content from a point-in-time"""
+    content = get_file_content("nhl_score_by_date.json")
+
+    mock_nhl_api_response.json.return_value = content
     return mock_nhl_api_response
 
 
 @pytest.fixture
+def mock_nhl_standings_now_response(mock_nhl_api_response):
+    """Mocks response from API with example content from a point-in-time"""
+    content = get_file_content("nhl_standings_now.json")
+
+    mock_nhl_api_response.json.return_value = content
+    return mock_nhl_api_response
+
+
+@pytest.fixture
+def mock_nhl_players_response(mock_nhl_api_response):
+    """Mocks response from API with example content from a point-in-time"""
+    content = get_file_content("nhl_players_by_team.json")
+
+    mock_nhl_api_response.json.return_value = content
+    return mock_nhl_api_response
+
+
+@pytest.fixture
+def mock_nhl_api_response_empty(mock_nhl_api_response):
+    def _make_response(key):
+        mock_nhl_api_response.json.return_value = {key: []}
+        return mock_nhl_api_response
+
+    return _make_response
+
+
+@pytest.fixture
 def mock_duckdb():
-    return MagicMock()
+    mock_resource = MagicMock()
+    mock_connection = MagicMock()
+
+    # Setup context manager for `with duckdb.get_connection() as conn:`
+    mock_resource.get_connection.return_value.__enter__.return_value = mock_connection
+    mock_resource.get_connection.return_value.__exit__.return_value = None
+
+    # Expose connection for easy test access
+    mock_resource._mock_connection = mock_connection
+
+    return mock_resource
 
 
 @pytest.fixture
@@ -50,14 +87,8 @@ def mock_context():
     return context
 
 
-@pytest.fixture
-def nhl_score_by_date_response():
-    """Load example from file"""
-    fixture_path = Path(__file__).parent / "fixtures" / "nhl_score_by_date_example.json"
+def get_file_content(filename) -> dict:
+    """Reads content of a JSON file and returns it"""
+    fixture_path = Path(__file__).parent / "fixtures" / filename
     with open(fixture_path, "r") as f:
         return json.load(f)
-
-
-@pytest.fixture
-def nhl_score_by_date_response_empty():
-    return {"games": []}
