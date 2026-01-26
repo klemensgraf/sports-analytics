@@ -1,7 +1,9 @@
 import dagster as dg
+from dagster_dbt import DbtCliResource
 from dagster_duckdb import DuckDBResource
 from dagster_duckdb_pandas import DuckDBPandasIOManager
 
+from sports_analytics.defs.project import dbt_project
 from sports_analytics.utils.apis import NhlAPIResource
 
 
@@ -12,6 +14,7 @@ def resources() -> dg.Definitions:
             "duckdb": DuckDBResource(
                 database=dg.EnvVar("DUCKDB_DATABASE"),
             ),
+            "dbt": DbtCliResource(project_dir=dbt_project),
             "io_manager": DuckDBPandasIOManager(
                 database=dg.EnvVar("DUCKDB_DATABASE"), schema="raw"
             ),

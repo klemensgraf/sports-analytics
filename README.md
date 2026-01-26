@@ -85,6 +85,9 @@ Create a `.env` file in the project root:
 # DuckDB
 DUCKDB_DATABASE=<path/to/db/file.duckdb>
 
+# DBT
+DBT_TARGET=dev
+
 # APIs
 NHL_API_BASE_URL=https://api-web.nhle.com/v1
 ```
@@ -101,6 +104,9 @@ Update your `.env` file:
 # DuckDB with MotherDuck
 DUCKDB_DATABASE=md:<database>
 MOTHERDUCK_TOKEN=<token>
+
+# DBT
+DBT_TARGET=dev
 
 # APIs
 NHL_API_BASE_URL=https://api-web.nhle.com/v1
