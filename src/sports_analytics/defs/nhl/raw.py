@@ -58,3 +58,47 @@ def nhl_standings_now(
     standings.columns = [to_snake_case(c) for c in standings.columns]
 
     return pd.DataFrame(standings)
+
+
+@dg.asset(deps=["nhl_standings_now"], group_name="raw", kinds={"python"})
+def nhl_players(
+    context: dg.AssetExecutionContext, duckdb: DuckDBResource, nhl_api: NhlAPIResource
+) -> pd.DataFrame:
+    """Get all players from each team's roster"""
+    table_name = "nhl_standings_now"
+    schema = context.resources.io_manager._schema
+    query = f"""
+        select team_abbrev_default, team_name_default
+        from {schema}.{table_name}
+    """
+
+    # Get each team's abbreviation and name
+    with duckdb.get_connection() as conn:
+        teams = conn.execute(query).fetchall()
+
+    # List to store all rosters in
+    rosters: list[pd.DataFrame] = []
+
+    for team_abbrev, team_name in teams:
+        # Call API endpoint for each team
+        url = f"/roster/{team_abbrev}/current"
+        result = nhl_api.get(url)
+
+        # Get JSON data for all positions
+        forwards = pd.DataFrame(json_normalize(result.get("forwards", []), sep="_"))
+        defensemen = pd.DataFrame(json_normalize(result.get("defensemen", []), sep="_"))
+        goalies = pd.DataFrame(json_normalize(result.get("goalies", []), sep="_"))
+
+        # Concat all positions to one DataFrame
+        roster = pd.concat([forwards, defensemen, goalies])
+        roster["team_name"] = team_name
+        roster["team_abbrev"] = team_abbrev
+
+        # Convert column name to snake case
+        roster.columns = [to_snake_case(c) for c in roster.columns]
+
+        # Add roster to a list to concat on all teams afterwards
+        rosters.append(roster)
+
+    # Return all players from each's team roster
+    return pd.concat(rosters)
