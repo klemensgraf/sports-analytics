@@ -14,7 +14,7 @@ from sports_analytics.utils.helpers import remove_existing_partition, to_snake_c
     kinds={"python"},
     partitions_def=games_daily_partition,
 )
-def nhl_games_final(
+def raw_nhl_games_final(
     context: dg.AssetExecutionContext, nhl_api: NhlAPIResource, duckdb: DuckDBResource
 ) -> pd.DataFrame:
     """Get game info and stats for provided date"""
@@ -43,7 +43,7 @@ def nhl_games_final(
 
 
 @dg.asset(group_name="raw", kinds={"python"})
-def nhl_standings_now(
+def raw_nhl_standings_now(
     context: dg.AssetExecutionContext, nhl_api: NhlAPIResource
 ) -> pd.DataFrame:
     """Get current standings and basic team stats"""
@@ -60,8 +60,8 @@ def nhl_standings_now(
     return pd.DataFrame(standings)
 
 
-@dg.asset(deps=["nhl_standings_now"], group_name="raw", kinds={"python"})
-def nhl_players(
+@dg.asset(deps=["raw_nhl_standings_now"], group_name="raw", kinds={"python"})
+def raw_nhl_players(
     context: dg.AssetExecutionContext, duckdb: DuckDBResource, nhl_api: NhlAPIResource
 ) -> pd.DataFrame:
     """Get all players from each team's roster"""

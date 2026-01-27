@@ -15,7 +15,7 @@ class CustomizedDagsterDbtTranslator(DagsterDbtTranslator):
         name = dbt_resource_props["name"]
 
         if resource_type == "source":
-            return dg.AssetKey(name)
+            return dg.AssetKey(f"raw_{name}")
         else:
             return super().get_asset_key(dbt_resource_props)
 
