@@ -17,7 +17,14 @@ from sports_analytics.utils.helpers import remove_existing_partition, to_snake_c
 def raw_nhl_games_final(
     context: dg.AssetExecutionContext, nhl_api: NhlAPIResource, duckdb: DuckDBResource
 ) -> pd.DataFrame:
-    """Get game info and stats for provided date"""
+    """
+    Fetch normalized NHL game records for the asset's partition date and prepare them for ingestion.
+    
+    This function calls the NHL score endpoint for the execution partition date, flattens the returned games into a pandas DataFrame with snake_case column names, adds a `partition_key` column, removes any existing data for the same partition via the provided DuckDB resource, and retains only rows where `game_state` equals "OFF".
+    
+    Returns:
+        pd.DataFrame: DataFrame of normalized game records for the partition date; columns are in snake_case and include `partition_key`. Rows correspond to games with `game_state == "OFF"`.
+    """
     partition_key = context.partition_key
 
     # Calling API endpoint and flatten data
@@ -46,7 +53,12 @@ def raw_nhl_games_final(
 def raw_nhl_standings_now(
     context: dg.AssetExecutionContext, nhl_api: NhlAPIResource
 ) -> pd.DataFrame:
-    """Get current standings and basic team stats"""
+    """
+    Retrieve current NHL standings and basic team statistics.
+    
+    Returns:
+        pd.DataFrame: A DataFrame of standings rows with column names converted to snake_case.
+    """
     # Calling API endpoint
     url = "/standings/now"
     result = nhl_api.get(url)
@@ -64,7 +76,14 @@ def raw_nhl_standings_now(
 def raw_nhl_players(
     context: dg.AssetExecutionContext, duckdb: DuckDBResource, nhl_api: NhlAPIResource
 ) -> pd.DataFrame:
-    """Get all players from each team's roster"""
+    """
+    Aggregate every NHL team's current roster into a single DataFrame.
+    
+    Queries the raw.nhl_standings_now table to obtain each team's abbreviation and name, calls the roster API for each team, concatenates players from all position groups, adds team_name and team_abbrev columns, and converts column names to snake_case.
+    
+    Returns:
+        pd.DataFrame: A DataFrame containing all players from every team's current roster with team metadata and snake_case column names.
+    """
     table_name = "nhl_standings_now"
     schema = "raw"
     query = f"""
