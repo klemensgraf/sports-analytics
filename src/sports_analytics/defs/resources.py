@@ -26,7 +26,7 @@ def resources() -> dg.Definitions:
             "duckdb": DuckDBResource(
                 database=dg.EnvVar("DUCKDB_DATABASE"),
             ),
-            "dbt": DbtCliResource(project_dir=dbt_project),
+            "dbt": DbtCliResource(project_dir=dbt_project.project_dir),
             "io_manager": DuckDBPandasIOManager(
                 database=dg.EnvVar("DUCKDB_DATABASE"), schema="raw"
             ),

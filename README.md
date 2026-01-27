@@ -39,7 +39,7 @@ The pipeline currently includes:
 
 ## Project Structure
 
-```
+```text
 sports-analytics/
 ├── src/sports_analytics/
 │   ├── analytics/               # DBT project root

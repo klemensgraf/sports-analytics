@@ -4,7 +4,7 @@ sources:
   - name: raw_games
     schema: raw
     tables:
-      - name: nhl_games_final
+      - name: raw_nhl_games_final
         description: "Final NHL game results"
         tests:
           - dbt_expectations.expect_compound_columns_to_be_unique:
@@ -87,15 +87,16 @@ sources:
   - name: raw_standings
     schema: raw
     tables:
-      - name: nhl_standings_now
+      - name: raw_nhl_standings_now
         description: "Current standings in the NHL"
         loaded_at_field: _loaded_at
         freshness:
           warn_after: {count: 24, period: hour}
           error_after: {count: 48, period: hour}
         tests:
+          # Note: NHL has had 32 teams since 2021 Seattle expansion
           - dbt_expectations.expect_table_row_count_to_equal:
-              value: 32  # Current number of teams in the NHL
+              value: 32
         columns:
           - name: conference_name
             description: "Name of the conference the team is in"
@@ -133,7 +134,7 @@ sources:
   - name: raw_players
     schema: raw
     tables:
-      - name: nhl_players
+      - name: raw_nhl_players
         description: "All NHL players from each team's roster"
         tests:
           - dbt_expectations.expect_table_row_count_to_be_between:
