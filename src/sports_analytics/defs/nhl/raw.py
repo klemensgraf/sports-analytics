@@ -2,6 +2,7 @@ import dagster as dg
 import pandas as pd
 from dagster_duckdb import DuckDBResource
 from pandas import json_normalize
+from datetime import date
 
 from sports_analytics.defs.nhl.partitions import games_daily_partition
 from sports_analytics.utils.apis import NhlAPIResource
@@ -14,10 +15,17 @@ from sports_analytics.utils.helpers import remove_existing_partition, to_snake_c
     kinds={"python"},
     partitions_def=games_daily_partition,
 )
-def nhl_games_final(
+def raw_nhl_games_final(
     context: dg.AssetExecutionContext, nhl_api: NhlAPIResource, duckdb: DuckDBResource
 ) -> pd.DataFrame:
-    """Get game info and stats for provided date"""
+    """
+    Fetch normalized NHL game records for the asset's partition date and prepare them for ingestion.
+
+    This function calls the NHL score endpoint for the execution partition date, flattens the returned games into a pandas DataFrame with snake_case column names, adds a `partition_key` column, removes any existing data for the same partition via the provided DuckDB resource, and retains only rows where `game_state` equals "OFF".
+
+    Returns:
+        pd.DataFrame: DataFrame of normalized game records for the partition date; columns are in snake_case and include `partition_key`. Rows correspond to games with `game_state == "OFF"`.
+    """
     partition_key = context.partition_key
 
     # Calling API endpoint and flatten data
@@ -39,14 +47,19 @@ def nhl_games_final(
         # Filter for unfinished games and remove them
         games = games[games["game_state"] == "OFF"]
 
-    return pd.DataFrame(games)
+    return games
 
 
 @dg.asset(group_name="raw", kinds={"python"})
-def nhl_standings_now(
+def raw_nhl_standings_now(
     context: dg.AssetExecutionContext, nhl_api: NhlAPIResource
 ) -> pd.DataFrame:
-    """Get current standings and basic team stats"""
+    """
+    Retrieve current NHL standings and basic team statistics.
+
+    Returns:
+        pd.DataFrame: A DataFrame of standings rows with column names converted to snake_case.
+    """
     # Calling API endpoint
     url = "/standings/now"
     result = nhl_api.get(url)
@@ -57,16 +70,26 @@ def nhl_standings_now(
     # Converting column name to snake case
     standings.columns = [to_snake_case(c) for c in standings.columns]
 
-    return pd.DataFrame(standings)
+    # Adding current date as metadata
+    standings["_loaded_at"] = date.today()
+
+    return standings
 
 
-@dg.asset(deps=["nhl_standings_now"], group_name="raw", kinds={"python"})
-def nhl_players(
+@dg.asset(deps=["raw_nhl_standings_now"], group_name="raw", kinds={"python"})
+def raw_nhl_players(
     context: dg.AssetExecutionContext, duckdb: DuckDBResource, nhl_api: NhlAPIResource
 ) -> pd.DataFrame:
-    """Get all players from each team's roster"""
-    table_name = "nhl_standings_now"
-    schema = context.resources.io_manager._schema
+    """
+    Aggregate every NHL team's current roster into a single DataFrame.
+
+    Queries the raw.nhl_standings_now table to obtain each team's abbreviation and name, calls the roster API for each team, concatenates players from all position groups, adds team_name and team_abbrev columns, and converts column names to snake_case.
+
+    Returns:
+        pd.DataFrame: A DataFrame containing all players from every team's current roster with team metadata and snake_case column names.
+    """
+    table_name = "raw_nhl_standings_now"
+    schema = "raw"
     query = f"""
         select team_abbrev_default, team_name_default
         from {schema}.{table_name}
@@ -85,12 +108,12 @@ def nhl_players(
         result = nhl_api.get(url)
 
         # Get JSON data for all positions
-        forwards = pd.DataFrame(json_normalize(result.get("forwards", []), sep="_"))
-        defensemen = pd.DataFrame(json_normalize(result.get("defensemen", []), sep="_"))
-        goalies = pd.DataFrame(json_normalize(result.get("goalies", []), sep="_"))
+        forwards = json_normalize(result.get("forwards", []), sep="_")
+        defensemen = json_normalize(result.get("defensemen", []), sep="_")
+        goalies = json_normalize(result.get("goalies", []), sep="_")
 
         # Concat all positions to one DataFrame
-        roster = pd.concat([forwards, defensemen, goalies])
+        roster = pd.concat([forwards, defensemen, goalies], ignore_index=True)
         roster["team_name"] = team_name
         roster["team_abbrev"] = team_abbrev
 
@@ -101,4 +124,4 @@ def nhl_players(
         rosters.append(roster)
 
     # Return all players from each's team roster
-    return pd.concat(rosters)
+    return pd.concat(rosters, ignore_index=True)

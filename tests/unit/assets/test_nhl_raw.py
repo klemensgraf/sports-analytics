@@ -4,9 +4,9 @@ import dagster as dg
 import pandas as pd
 
 from sports_analytics.defs.nhl.raw import (
-    nhl_games_final,
-    nhl_players,
-    nhl_standings_now,
+    raw_nhl_games_final,
+    raw_nhl_players,
+    raw_nhl_standings_now,
 )
 
 
@@ -34,7 +34,7 @@ class TestNhlGamesFinal:
         )
 
         # Call mock API and get result
-        result = nhl_games_final(context=context)
+        result = raw_nhl_games_final(context=context)
 
         # Assertions
         assert isinstance(result, pd.DataFrame)
@@ -63,7 +63,7 @@ class TestNhlGamesFinal:
         )
 
         # Call mock API and get result
-        result = nhl_games_final(context=context)
+        result = raw_nhl_games_final(context=context)
 
         # Assertions
         assert isinstance(result, pd.DataFrame)
@@ -89,7 +89,7 @@ class TestNhlStandingsNow:
         )
 
         # Call mock API and get result
-        result = nhl_standings_now(context=context)
+        result = raw_nhl_standings_now(context=context)
 
         # Assertions
         assert isinstance(result, pd.DataFrame)
@@ -115,9 +115,7 @@ class TestNhlPlayers:
             ("BOS", "Boston Bruins"),
             ("CHI", "Chicago Blackhawks"),
         ]
-        mock_duckdb._mock_connection.execute.return_value.fetchall.return_value = (
-            fake_teams
-        )
+        mock_duckdb._mock_connection.execute.return_value.fetchall.return_value = fake_teams
 
         # Build context
         context = dg.build_asset_context(
@@ -129,7 +127,7 @@ class TestNhlPlayers:
         )
 
         # Call mock API and get result
-        result = nhl_players(context=context)
+        result = raw_nhl_players(context=context)
 
         # Assertions
         assert isinstance(result, pd.DataFrame)

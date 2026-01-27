@@ -13,7 +13,7 @@ This project implements a complete data pipeline following these stages:
 
 1. **Data Extraction**: Automated data ingestion from the NHL's API
 2. **Data Loading**: Partitioned storage using DuckDB for efficient querying
-3. **Data Transformation**: Data cleaning and feature engineering (in progress)
+3. **Data Transformation**: SQL-based transformations with DBT and comprehensive data quality testing
 4. **Model Training**: Machine learning model development (planned)
 
 ## Architecture
@@ -33,25 +33,41 @@ The pipeline currently includes:
 - **Data Assets**: Dagster assets for orchestrating data ingestion
 - **API Integration**: Custom NHL API resource with error handling and support for game schedules, scores, play-by-play data, and more
 - **Storage Layer**: DuckDB with partition support for time-series data
-- **Testing**: Unit tests for core utilities and data processing
+- **DBT Integration**: Fully configured transformation layer with Dagster integration
+- **Data Quality**: Multiple comprehensive tests across all data sources using DBT expectations
+- **Testing**: Unit tests for core utilities and data processing with CI/CD via GitHub Actions
 
 ## Project Structure
 
-```
+```text
 sports-analytics/
 ├── src/sports_analytics/
+│   ├── analytics/               # DBT project root
+│   │   ├── dbt_project.yml      # DBT configuration
+│   │   ├── profiles.yml         # DBT connection profiles
+│   │   ├── packages.yml         # DBT package dependencies
+│   │   ├── models/
+│   │   │   ├── sources/
+│   │   │   │   └── nhl.yml      # Source definitions with 28+ tests
+│   │   │   └── staging/
+│   │   │       └── stg_nhl_players.sql  # Player staging model
+│   │   └── dbt_packages/        # Installed DBT packages
 │   ├── defs/
-│   │   ├── hockey/
-│   │   │   ├── nhl.py           # NHL data ingestion assets
+│   │   ├── nhl/
+│   │   │   ├── raw.py           # NHL raw data ingestion assets
 │   │   │   ├── partitions.py    # Partition definitions
 │   │   │   └── constants.py     # Configuration constants
-│   │   └── resources.py         # Dagster resources (DB, API)
+│   │   ├── dbt.py               # DBT-Dagster integration
+│   │   ├── project.py           # DBT project configuration
+│   │   └── resources.py         # Dagster resources (DB, API, DBT)
 │   ├── utils/
 │   │   ├── apis.py              # API client implementations
 │   │   └── helpers.py           # Utility functions
 │   └── definitions.py           # Main Dagster definitions
 ├── tests/
 │   └── unit/                    # Unit test suite
+│       ├── assets/              # Asset tests
+│       └── utils/               # Utility tests
 └── pyproject.toml               # Project dependencies
 ```
 
@@ -59,7 +75,7 @@ sports-analytics/
 
 ### Prerequisites
 
-- Python 3.12 or higher (but less than 3.15)
+- Python 3.12 or higher (but less than 3.14)
 - UV package manager (recommended) or pip
 
 ### Installation
@@ -83,7 +99,14 @@ Create a `.env` file in the project root:
 
 ```dotenv
 # DuckDB
-DUCKDB_DATABASE=<path/to/db/file.duckdb>
+DUCKDB_DATABASE_DEV=<path/to/db/file.duckdb>
+
+# For test/prod targets (optional):
+# DUCKDB_DATABASE_TEST=<path/to/test.duckdb>
+# DUCKDB_DATABASE_PROD=<path/to/prod.duckdb>
+
+# DBT
+DBT_TARGET=dev
 
 # APIs
 NHL_API_BASE_URL=https://api-web.nhle.com/v1
@@ -99,8 +122,15 @@ Update your `.env` file:
 
 ```dotenv
 # DuckDB with MotherDuck
-DUCKDB_DATABASE=md:<database>
+DUCKDB_DATABASE_DEV=md:<database>
 MOTHERDUCK_TOKEN=<token>
+
+# For test/prod targets (optional):
+# DUCKDB_DATABASE_TEST=md:<database>
+# DUCKDB_DATABASE_PROD=md:<database>
+
+# DBT
+DBT_TARGET=dev
 
 # APIs
 NHL_API_BASE_URL=https://api-web.nhle.com/v1
@@ -130,22 +160,69 @@ Run tests with coverage:
 pytest --cov=sports_analytics
 ```
 
+### Data Quality Testing
+
+The project implements comprehensive data quality testing using DBT:
+
+**Source Tests** (28+ tests across 3 data sources):
+
+1. **Games Data** (`raw_games.nhl_games_final`):
+   - Unique game IDs and compound uniqueness checks
+   - Game type validation (regular season, postseason)
+   - Game state verification (only complete games)
+   - Score and shot range validations
+   - Period type validation
+
+2. **Standings Data** (`raw_standings.nhl_standings_now`):
+   - Exact row count (32 NHL teams)
+   - Conference and division validation
+   - Games played range checks
+   - Team naming conventions
+
+3. **Player Data** (`raw_players.nhl_players`):
+   - Player ID uniqueness
+   - Position, shoots/catches validation
+   - Physical attributes (height, weight) range checks
+   - Sweater number validation
+
+Run DBT tests:
+
+```bash
+dbt test --project-dir src/sports_analytics/analytics
+```
+
 ## Features
 
 ### Implemented
 
-- Daily-partitioned data ingestion for NHL games
-- NHL API integration with error handling (using `https://api-web.nhle.com/v1`)
-- DuckDB storage with partition management
-- Automated removal of incomplete games
-- Column name standardization (snake_case)
-- Comprehensive unit testing
+- **Data Ingestion**:
+  - Daily-partitioned NHL game results (`raw_nhl_games_final`)
+  - Current NHL team standings (`raw_nhl_standings_now`)
+  - Player roster data for all 32 teams (`raw_nhl_players`)
+  - NHL API integration with error handling (using `https://api-web.nhle.com/v1`)
+- **Data Storage**:
+  - DuckDB storage with partition management
+  - Automated removal of incomplete games
+  - Column name standardization (snake_case)
+- **Data Transformation**:
+  - DBT integration with Dagster
+  - Custom asset key mapping for seamless integration
+  - Staging models for data transformation
+  - DBT packages: `dbt_expectations` (v0.10.10), `dbt_date` (v0.17.1)
+- **Data Quality**:
+  - 28+ comprehensive source tests across all data sources
+  - Validation for uniqueness, ranges, types, and business logic
+  - Automated testing using DBT expectations
+- **Testing & CI/CD**:
+  - Comprehensive unit test suite
+  - GitHub Actions CI pipeline (Python 3.12, 3.13)
+  - Mock fixtures for API responses
 
 ### In Progress
 
-- DBT transformation models for data cleaning
-- Additional data sources (player stats, team stats)
-- Data quality checks and validation
+- Additional DBT staging and mart models
+- Enhanced feature transformations for ML readiness
+- Expanded data quality monitoring
 
 ### Planned
 

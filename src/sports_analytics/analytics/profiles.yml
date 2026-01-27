@@ -1,0 +1,12 @@
+analytics:
+  target: "{{ env_var('DBT_TARGET', 'dev') }}"
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{env_var('DUCKDB_DATABASE_DEV')}}"
+    test:
+      type: duckdb
+      path: "{{env_var('DUCKDB_DATABASE_TEST')}}"
+    prod:
+      type: duckdb
+      path: "{{env_var('DUCKDB_DATABASE_PROD')}}"
