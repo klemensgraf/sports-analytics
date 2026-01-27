@@ -89,9 +89,13 @@ sources:
     tables:
       - name: nhl_standings_now
         description: "Current standings in the NHL"
+        loaded_at_field: _loaded_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
         tests:
           - dbt_expectations.expect_table_row_count_to_equal:
-              value: 32
+              value: 32  # Current number of teams in the NHL
         columns:
           - name: conference_name
             description: "Name of the conference the team is in"
@@ -140,6 +144,7 @@ sources:
             description: "ID of player"
             tests:
               - not_null
+              - dbt_expectations.expect_column_values_to_be_unique
 
           - name: sweater_number
             description: "Number on jersey"

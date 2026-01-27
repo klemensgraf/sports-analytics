@@ -39,7 +39,7 @@ def raw_nhl_games_final(
         # Filter for unfinished games and remove them
         games = games[games["game_state"] == "OFF"]
 
-    return pd.DataFrame(games)
+    return games
 
 
 @dg.asset(group_name="raw", kinds={"python"})
@@ -57,7 +57,7 @@ def raw_nhl_standings_now(
     # Converting column name to snake case
     standings.columns = [to_snake_case(c) for c in standings.columns]
 
-    return pd.DataFrame(standings)
+    return standings
 
 
 @dg.asset(deps=["raw_nhl_standings_now"], group_name="raw", kinds={"python"})
@@ -66,7 +66,7 @@ def raw_nhl_players(
 ) -> pd.DataFrame:
     """Get all players from each team's roster"""
     table_name = "nhl_standings_now"
-    schema = context.resources.io_manager._schema
+    schema = "raw"
     query = f"""
         select team_abbrev_default, team_name_default
         from {schema}.{table_name}
@@ -85,12 +85,12 @@ def raw_nhl_players(
         result = nhl_api.get(url)
 
         # Get JSON data for all positions
-        forwards = pd.DataFrame(json_normalize(result.get("forwards", []), sep="_"))
-        defensemen = pd.DataFrame(json_normalize(result.get("defensemen", []), sep="_"))
-        goalies = pd.DataFrame(json_normalize(result.get("goalies", []), sep="_"))
+        forwards = json_normalize(result.get("forwards", []), sep="_")
+        defensemen = json_normalize(result.get("defensemen", []), sep="_")
+        goalies = json_normalize(result.get("goalies", []), sep="_")
 
         # Concat all positions to one DataFrame
-        roster = pd.concat([forwards, defensemen, goalies])
+        roster = pd.concat([forwards, defensemen, goalies], ignore_index=True)
         roster["team_name"] = team_name
         roster["team_abbrev"] = team_abbrev
 
@@ -101,4 +101,4 @@ def raw_nhl_players(
         rosters.append(roster)
 
     # Return all players from each's team roster
-    return pd.concat(rosters)
+    return pd.concat(rosters, ignore_index=True)

@@ -7,7 +7,8 @@ from sports_analytics.defs.project import dbt_project
 class CustomizedDagsterDbtTranslator(DagsterDbtTranslator):
     def get_group_name(self, dbt_resource_props):
         """Groups assets into different model categories"""
-        return dbt_resource_props["fqn"][1]
+        fqn = dbt_resource_props["fqn"]
+        return fqn[1] if len(fqn) > 1 else fqn[0]
 
     def get_asset_key(self, dbt_resource_props):
         """Transforms asset keys to match Dagster managed raw data assets"""
