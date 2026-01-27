@@ -99,7 +99,11 @@ Create a `.env` file in the project root:
 
 ```dotenv
 # DuckDB
-DUCKDB_DATABASE=<path/to/db/file.duckdb>
+DUCKDB_DATABASE_DEV=<path/to/db/file.duckdb>
+
+# For test/prod targets (optional):
+# DUCKDB_DATABASE_TEST=<path/to/test.duckdb>
+# DUCKDB_DATABASE_PROD=<path/to/prod.duckdb>
 
 # DBT
 DBT_TARGET=dev
@@ -118,8 +122,12 @@ Update your `.env` file:
 
 ```dotenv
 # DuckDB with MotherDuck
-DUCKDB_DATABASE=md:<database>
+DUCKDB_DATABASE_DEV=md:<database>
 MOTHERDUCK_TOKEN=<token>
+
+# For test/prod targets (optional):
+# DUCKDB_DATABASE_TEST=md:<database>
+# DUCKDB_DATABASE_PROD=md:<database>
 
 # DBT
 DBT_TARGET=dev

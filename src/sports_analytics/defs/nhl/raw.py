@@ -2,6 +2,7 @@ import dagster as dg
 import pandas as pd
 from dagster_duckdb import DuckDBResource
 from pandas import json_normalize
+from datetime import date
 
 from sports_analytics.defs.nhl.partitions import games_daily_partition
 from sports_analytics.utils.apis import NhlAPIResource
@@ -68,6 +69,9 @@ def raw_nhl_standings_now(
 
     # Converting column name to snake case
     standings.columns = [to_snake_case(c) for c in standings.columns]
+
+    # Adding current date as metadata
+    standings["_loaded_at"] = date.today()
 
     return standings
 
