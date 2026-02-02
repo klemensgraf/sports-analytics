@@ -136,6 +136,10 @@ sources:
     tables:
       - name: raw_nhl_players
         description: "All NHL players from each team's roster"
+        loaded_at_field: _loaded_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
         tests:
           - dbt_expectations.expect_table_row_count_to_be_between:
               min_value: 700

@@ -38,7 +38,7 @@ class TestRemoveExistingPartition:
 
         # Assertions
         mock_conn.execute.assert_called_once_with(
-            "DELETE FROM test_schema.test_table WHERE partition_key = '2026-01-21'"
+            "DELETE FROM test_schema.test_table WHERE _partition_key = '2026-01-21'"
         )
         mock_context.log.info.assert_called_once_with(
             "Rows deleted with partition key '2026-01-21': 6"
@@ -73,9 +73,7 @@ class TestRemoveExistingPartition:
     def test_database_does_not_exist(self, mock_duckdb, mock_context):
         """Should raise DatabaseError for failing to remove records"""
         mock_conn = MagicMock()
-        mock_conn.execute.side_effect = CatalogException(
-            "Database is in read-only mode"
-        )
+        mock_conn.execute.side_effect = CatalogException("Database is in read-only mode")
         mock_duckdb.get_connection.return_value.__enter__.return_value = mock_conn
 
         with pytest.raises(DatabaseError) as exc_info:

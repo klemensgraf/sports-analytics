@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: stg_nhl_players
+    description: "One record per NHL player"
+
+  - name: stg_nhl_teams
+    description: "One record per active NHL team"
+
+  - name: stg_nhl_games
+    description: "One record per finished game in the current season"
+
+  - name: stg_nhl_game_goals
+    description: "One record for each goal in each game"
