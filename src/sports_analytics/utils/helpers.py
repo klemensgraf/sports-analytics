@@ -11,7 +11,33 @@ from duckdb import CatalogException, DatabaseError
 
 
 def to_snake_case(text: str) -> str:
-    """Change every string to snake casing"""
+    """
+    Convert a string to snake_case.
+
+    This helper normalizes common naming styles and separators:
+
+    - replaces whitespace, dots and hyphens with underscores
+    - inserts underscores between camelCase / PascalCase boundaries
+      and in sequences like "HTTPResponse" -> "http_response"
+    - lowercases the result
+    - collapses multiple underscores and strips leading/trailing underscores
+
+    Parameters
+    ----------
+    text : str
+        Input string to normalize.
+
+    Returns
+    -------
+    str
+        Normalized snake_case string.
+
+    Examples
+    --------
+    "PascalCase" -> "pascal_case"
+    "kebab-case-string" -> "kebab_case_string"
+    "User.Profile-Settings Data" -> "user_profile_settings_data"
+    """
     # Replace all special chars with underscores
     s1 = re.sub(r"[.\-\s]+", "_", text)
 
@@ -29,7 +55,39 @@ def to_snake_case(text: str) -> str:
 
 
 def remove_existing_partition(duckdb: DuckDBResource, context: dg.AssetExecutionContext) -> None:
-    """Removes pre-existing records from destination table with same partition key"""
+    """
+    Delete pre-existing rows for the current partition in the destination table.
+
+    The target table is derived from the Dagster asset key (last path segment),
+    the schema is read from the configured IO manager resource, and the
+    partition key is taken from the execution context.
+
+    Behavior
+    --------
+    - Executes a DELETE statement filtered by `_partition_key`.
+    - Logs an info message with the number of deleted rows.
+    - If the table does not exist, logs a warning and returns.
+    - If a DuckDB CatalogException occurs for other reasons, raises DatabaseError.
+    - Any other unexpected exception is re-raised as RuntimeError.
+
+    Parameters
+    ----------
+    duckdb : DuckDBResource
+        DuckDB resource used to obtain a connection.
+    context : dg.AssetExecutionContext
+        Dagster context providing asset key, resources and partition key.
+
+    Returns
+    -------
+    None
+
+    Raises
+    ------
+    DatabaseError
+        If deletion fails due to a DuckDB catalog-related error (except missing table).
+    RuntimeError
+        For any other unexpected error during deletion.
+    """
     # Get metadata from context
     table_name = context.asset_key.path[-1]  # Gets asset key for table name
     schema = context.resources.io_manager._schema
@@ -38,7 +96,7 @@ def remove_existing_partition(duckdb: DuckDBResource, context: dg.AssetExecution
     try:
         with duckdb.get_connection() as conn:
             result = conn.execute(
-                f"DELETE FROM {schema}.{table_name} WHERE _partition_key = '{partition_key}'"
+                f"DELETE FROM {schema}.{table_name} WHERE _partition_key = ?", [partition_key]
             ).fetchall()[0]
             context.log.info(f"Rows deleted with partition key '{partition_key}': {result[0]}")
             return
@@ -111,5 +169,5 @@ def parse_nested_datatype(s: Any) -> Any | None:
     # Parse JSON first, fallback to Python literal
     try:
         return json.loads(s)
-    except Exception:
+    except json.JSONDecodeError:
         return ast.literal_eval(s)
