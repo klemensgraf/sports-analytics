@@ -1,4 +1,4 @@
-with source as(
+with source as (
   select * from {{ source("raw_standings", "raw_nhl_standings_now") }}
 ),
 
@@ -10,8 +10,7 @@ renamed as (
     division_name,
     division_abbrev,
     conference_name,
-    conference_abbrev,
-    _loaded_at
+    conference_abbrev
   from source
 )
 

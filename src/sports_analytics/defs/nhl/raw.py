@@ -46,48 +46,53 @@ def raw_nhl_games_final(
     result = nhl_api.get(url)
     games = json_normalize(result.get("games", []), sep="_")
 
-    # Remove pre-existing data for this partition
-    remove_existing_partition(duckdb, context)
+    if len(games) == 0:
+        context.log.info("No games returned from API. Partition will be skipped.")
+        return pd.DataFrame()
+    else:
+        # Remove pre-existing data for this partition
+        remove_existing_partition(duckdb, context)
 
-    # Converting columns names to snake case
-    games.columns = [to_snake_case(c) for c in games.columns]
+        # Converting columns names to snake case
+        games.columns = [to_snake_case(c) for c in games.columns]
 
-    # Filter for columns to keep to get a consistent series of columns
-    columns_to_keep = [
-        "id",
-        "season",
-        "game_type",
-        "game_date",
-        "start_time_utc",
-        "tv_broadcasts",
-        "goals",
-        "game_state",
-        "game_schedule_state",
-        "neutral_site",
-        "venue_timezone",
-        "period",
-        "venue_default",
-        "away_team_id",
-        "away_team_name_default",
-        "away_team_abbrev",
-        "away_team_score",
-        "away_team_sog",
-        "home_team_id",
-        "home_team_name_default",
-        "home_team_abbrev",
-        "home_team_score",
-        "home_team_sog",
-        "clock_time_remaining",
-        "clock_seconds_remaining",
-        "clock_running",
-        "clock_in_intermission",
-        "period_descriptor_number",
-        "period_descriptor_period_type",
-        "period_descriptor_max_regulation_periods",
-        "game_outcome_last_period_type",
-    ]
-    if len(games) > 0:
-        games = games[columns_to_keep]
+        # Filter for columns to keep to get a consistent series of columns
+        columns_to_keep = [
+            "id",
+            "season",
+            "game_type",
+            "game_date",
+            "start_time_utc",
+            "tv_broadcasts",
+            "goals",
+            "game_state",
+            "game_schedule_state",
+            "neutral_site",
+            "venue_timezone",
+            "period",
+            "venue_default",
+            "away_team_id",
+            "away_team_name_default",
+            "away_team_abbrev",
+            "away_team_score",
+            "away_team_sog",
+            "home_team_id",
+            "home_team_name_default",
+            "home_team_abbrev",
+            "home_team_score",
+            "home_team_sog",
+            "clock_time_remaining",
+            "clock_seconds_remaining",
+            "clock_running",
+            "clock_in_intermission",
+            "period_descriptor_number",
+            "period_descriptor_period_type",
+            "period_descriptor_max_regulation_periods",
+            "game_outcome_last_period_type",
+        ]
+
+        # Fill columns which are not present with NaN
+        games = games.reindex(columns=columns_to_keep)
 
         # Filter for unfinished games and remove them
         games = games[games["game_state"] == "OFF"]
@@ -97,14 +102,11 @@ def raw_nhl_games_final(
         games["goals"] = games["goals"].map(
             lambda v: None if v is None else json.dumps(v, ensure_ascii=False)
         )
-    else:
-        context.log.info("DataFrame is empty. Partition will be skipped.")
-        return pd.DataFrame()
 
-    # Adding `partition_key` to data
-    games["_partition_key"] = partition_key
+        # Adding `partition_key` to data
+        games["_partition_key"] = partition_key
 
-    return games
+        return games
 
 
 @dg.asset(group_name="raw", kinds={"python"})

@@ -3,14 +3,10 @@ version: 2
 models:
   - name: stg_nhl_players
     description: "One record per NHL player"
-    loaded_at_field: _loaded_at
-    freshness:
-      warn_after: {count: 24, period: hour}
-      error_after: {count: 48, period: hour}
     tests:
       - dbt_expectations.expect_table_columns_to_match_set:
           arguments:
-            column_list: ["player_id", "first_name", "last_name", "sweater_number", "position_code", "shoots_catches", "height_cm", "weight_kg", "birth_date", "birth_country", "birth_city", "birth_state_province", "team_name", "team_abbrev", "_loaded_at"]
+            column_list: ["player_id", "first_name", "last_name", "sweater_number", "position_code", "shoots_catches", "height_cm", "weight_kg", "birth_date", "birth_country", "birth_city", "birth_state_province", "team_name", "team_abbrev"]
     columns:
       - name: birth_date
         tests:
@@ -20,10 +16,6 @@ models:
 
   - name: stg_nhl_teams
     description: "One record per active NHL team"
-    loaded_at_field: _loaded_at
-    freshness:
-      warn_after: {count: 24, period: hour}
-      error_after: {count: 48, period: hour}
     tests:
       # Note: NHL has had 32 teams since 2021 Seattle expansion
       - dbt_expectations.expect_table_row_count_to_equal:
@@ -31,7 +23,7 @@ models:
             value: 32
       - dbt_expectations.expect_table_columns_to_match_set:
           arguments:
-            column_list: ["name", "abbrev", "location", "division_name", "division_abbrev", "conference_name", "conference_abbrev", "_loaded_at"]
+            column_list: ["name", "abbrev", "location", "division_name", "division_abbrev", "conference_name", "conference_abbrev"]
 
   - name: stg_nhl_games
     description: "One record per finished game in the current season"
@@ -42,22 +34,14 @@ models:
 
   - name: stg_nhl_game_goals
     description: "One record for each goal in each game"
-    loaded_at_field: _loaded_at
-    freshness:
-      warn_after: {count: 24, period: hour}
-      error_after: {count: 48, period: hour}
     tests:
       - dbt_expectations.expect_table_columns_to_match_set:
           arguments:
-            column_list: ["game_id", "goal_idx", "period", "period_type", "time_in_period", "scorer_player_id", "scorer_first_name", "scorer_last_name", "team_abbrev", "strength", "home_score", "away_score", "goals_to_date", "_loaded_at"]
+            column_list: ["game_id", "goal_idx", "period", "period_type", "time_in_period", "scorer_player_id", "scorer_first_name", "scorer_last_name", "team_abbrev", "strength", "home_score", "away_score", "goals_to_date"]
 
   - name: stg_nhl_game_assists
     description: "One record for each assist on each goal"
-    loaded_at_field: _loaded_at
-    freshness:
-      warn_after: {count: 24, period: hour}
-      error_after: {count: 48, period: hour}
     tests:
       - dbt_expectations.expect_table_columns_to_match_set:
           arguments:
-            column_list: ["game_id", "goal_idx", "scorer_player_id", "assist_idx", "assist_player_id", "assist_player_name", "assists_to_date", "_loaded_at"]
+            column_list: ["game_id", "goal_idx", "scorer_player_id", "assist_idx", "assist_player_id", "assist_player_name", "assists_to_date"]

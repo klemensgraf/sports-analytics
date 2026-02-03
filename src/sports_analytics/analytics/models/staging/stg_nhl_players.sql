@@ -17,8 +17,7 @@ renamed as (
     birth_city_default as birth_city,
     birth_state_province_default as birth_state_province,
     team_name,
-    team_abbrev,
-    _loaded_at
+    team_abbrev
   from source
 )
 
