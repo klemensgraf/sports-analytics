@@ -34,7 +34,9 @@ The pipeline currently includes:
 - **API Integration**: Custom NHL API resource with error handling and support for game schedules, scores, play-by-play data, and more
 - **Storage Layer**: DuckDB with partition support for time-series data
 - **DBT Integration**: Fully configured transformation layer with Dagster integration
-- **Data Quality**: Multiple comprehensive tests across all data sources using DBT expectations
+  - 5 staging models for data normalization
+  - 4 intermediate models for feature engineering and event-level analysis
+- **Data Quality**: 70+ comprehensive tests across all data sources, staging, and intermediate models using DBT expectations
 - **Testing**: Unit tests for core utilities and data processing with CI/CD via GitHub Actions
 
 ## Project Structure
@@ -47,10 +49,22 @@ sports-analytics/
 │   │   ├── profiles.yml         # DBT connection profiles
 │   │   ├── packages.yml         # DBT package dependencies
 │   │   ├── models/
-│   │   │   ├── sources/
-│   │   │   │   └── nhl.yml      # Source definitions with 28+ tests
-│   │   │   └── staging/
-│   │   │       └── stg_nhl_players.sql  # Player staging model
+│   │   │   ├── staging/
+│   │   │   │   └── nhl/
+│   │   │   │       ├── _nhl__sources.yml     # Source definitions with 50+ tests
+│   │   │   │       ├── _nhl__models.yml      # Staging model tests
+│   │   │   │       ├── stg_nhl_games.sql     # Game staging model
+│   │   │   │       ├── stg_nhl_players.sql   # Player staging model
+│   │   │   │       ├── stg_nhl_teams.sql     # Team staging model
+│   │   │   │       ├── stg_nhl_game_goals.sql    # Goal events staging
+│   │   │   │       └── stg_nhl_game_assists.sql  # Assist events staging
+│   │   │   └── intermediate/
+│   │   │       └── nhl/
+│   │   │           ├── _int_nhl__models.yml         # Intermediate model tests
+│   │   │           ├── int_nhl_game_base.sql        # Core game facts
+│   │   │           ├── int_nhl_team_game.sql        # Team-level game stats
+│   │   │           ├── int_nhl_goal_events.sql      # Goal event facts
+│   │   │           └── int_nhl_assist_events.sql    # Assist event facts
 │   │   └── dbt_packages/        # Installed DBT packages
 │   ├── defs/
 │   │   ├── nhl/
@@ -162,28 +176,41 @@ pytest --cov=sports_analytics
 
 ### Data Quality Testing
 
-The project implements comprehensive data quality testing using DBT:
+The project implements comprehensive data quality testing using DBT with 70+ tests across all layers:
 
-**Source Tests** (28+ tests across 3 data sources):
+**Source Tests** (50+ tests across 3 raw data sources):
 
-1. **Games Data** (`raw_games.nhl_games_final`):
+1. **Games Data** (`raw_nhl_games_final`):
    - Unique game IDs and compound uniqueness checks
    - Game type validation (regular season, postseason)
    - Game state verification (only complete games)
    - Score and shot range validations
    - Period type validation
 
-2. **Standings Data** (`raw_standings.nhl_standings_now`):
+2. **Standings Data** (`raw_nhl_standings_now`):
    - Exact row count (32 NHL teams)
    - Conference and division validation
    - Games played range checks
    - Team naming conventions
 
-3. **Player Data** (`raw_players.nhl_players`):
+3. **Player Data** (`raw_nhl_players`):
    - Player ID uniqueness
    - Position, shoots/catches validation
    - Physical attributes (height, weight) range checks
-   - Sweater number validation
+   - Data type validation
+
+**Staging Model Tests** (column validation and data type tests):
+   - `stg_nhl_games`: Column schema validation
+   - `stg_nhl_players`: Date type validation for birth dates
+   - `stg_nhl_teams`: Exact row count (32 teams) and schema validation
+   - `stg_nhl_game_goals`: Column schema validation
+   - `stg_nhl_game_assists`: Column schema validation
+
+**Intermediate Model Tests** (business logic validation):
+   - `int_nhl_game_base`: Unique game IDs
+   - `int_nhl_team_game`: Compound uniqueness (game_id, team_id)
+   - `int_nhl_goal_events`: Compound uniqueness (game_id, goal_idx)
+   - `int_nhl_assist_events`: Compound uniqueness (game_id, goal_idx, assist_idx)
 
 Run DBT tests:
 
@@ -207,10 +234,20 @@ dbt test --project-dir src/sports_analytics/analytics
 - **Data Transformation**:
   - DBT integration with Dagster
   - Custom asset key mapping for seamless integration
-  - Staging models for data transformation
+  - **5 Staging Models**: Data normalization and cleaning
+    - `stg_nhl_games`: Normalized game-level data
+    - `stg_nhl_players`: Clean player roster data
+    - `stg_nhl_teams`: Current NHL team information
+    - `stg_nhl_game_goals`: Goal events by game
+    - `stg_nhl_game_assists`: Assist events by game
+  - **4 Intermediate Models**: Feature engineering and analytics-ready datasets
+    - `int_nhl_game_base`: Core game facts with outcome indicators (OT/SO flags, winning team)
+    - `int_nhl_team_game`: Team-level statistics per game
+    - `int_nhl_goal_events`: Goal event facts and context
+    - `int_nhl_assist_events`: Assist event facts linked to goals
   - DBT packages: `dbt_expectations` (v0.10.10), `dbt_date` (v0.17.1)
 - **Data Quality**:
-  - 28+ comprehensive source tests across all data sources
+  - 70+ comprehensive tests across raw sources, staging models, and intermediate models
   - Validation for uniqueness, ranges, types, and business logic
   - Automated testing using DBT expectations
 - **Testing & CI/CD**:
@@ -220,9 +257,9 @@ dbt test --project-dir src/sports_analytics/analytics
 
 ### In Progress
 
-- Additional DBT staging and mart models
+- DBT mart models for final analytical datasets
 - Enhanced feature transformations for ML readiness
-- Expanded data quality monitoring
+- Expanded data quality monitoring and alerting
 
 ### Planned
 

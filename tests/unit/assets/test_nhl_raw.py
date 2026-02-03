@@ -116,7 +116,9 @@ class TestNhlPlayers:
             ("BOS", "Boston Bruins"),
             ("CHI", "Chicago Blackhawks"),
         ]
-        mock_duckdb._mock_connection.execute.return_value.fetchall.return_value = fake_teams
+        mock_duckdb._mock_connection.execute.return_value.fetchall.return_value = (
+            fake_teams
+        )
 
         # Build context
         context = dg.build_asset_context(
