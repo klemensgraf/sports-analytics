@@ -1,7 +1,5 @@
-{{ config(materialized='table') }}
-
 with source as (
-  select id, cast(goals as json) as goals_json
+  select id, cast(goals as json) as goals_json, _partition_key
   from {{ source("raw_games", "raw_nhl_games_final") }}
 ),
 
@@ -9,13 +7,21 @@ with source as (
 goals as (
   select
     s.id as game_id,
+    cast(g.key as integer) as goal_idx,
     g.value as goal
   from source s
   , lateral json_each(goals_json) as g
+),
+
+-- Latest partition date
+max_partition as (
+  select max(cast(_partition_key as date)) as max_part_key
+  from source
 )
 
 select
   game_id,
+  goal_idx,
   -- Period info
   cast(json_extract(goal, '$.period') as integer) as period,
   json_extract_string(goal, '$.periodDescriptor.periodType') as period_type,
@@ -30,5 +36,8 @@ select
   -- Scoreboard
   cast(json_extract(goal, '$.homeScore') as integer) as home_score,
   cast(json_extract(goal, '$.awayScore') as integer) as away_score,
-  cast(json_extract(goal, '$.goalsToDate') as integer) as goals_to_date
+  cast(json_extract(goal, '$.goalsToDate') as integer) as goals_to_date,
+
+  cast(m.max_part_key as date) as _loaded_at
 from goals
+cross join max_partition m
