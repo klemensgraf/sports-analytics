@@ -19,3 +19,5 @@ models:
   analytics:
     staging:
       +materialized: view
+    intermediate:
+      +materialized: view

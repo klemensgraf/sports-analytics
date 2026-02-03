@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: int_nhl_game_base
+    description: "Contains a record for each game with crucial game stats"
+    columns:
+      - name: game_id
+        tests:
+          - dbt_expectations.expect_column_values_to_be_unique
+
+  - name: int_nhl_team_game
+    description: "Contains a record for each team and game with important features for each team"
+    tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list: ["game_id", "team_id"]
+
+  - name: int_nhl_goal_events
+    description: "There is a record for each goal in each game"
+    tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list: ["game_id", "goal_idx"]
+
+  - name: int_nhl_assist_events
+    description: "There is a record for each assist tied to the goal scored"
+    tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list: ["game_id", "goal_idx", "assist_idx"]
