@@ -23,7 +23,7 @@ from sports_analytics.utils.helpers import (
 )
 def raw_nhl_games_final(
     context: dg.AssetExecutionContext, nhl_api: NhlAPIResource, duckdb: DuckDBResource
-) -> pd.DataFrame | None:
+) -> pd.DataFrame:
     """
     Fetch normalized NHL game records for the asset's partition date and prepare them for
     ingestion.
@@ -46,50 +46,50 @@ def raw_nhl_games_final(
     result = nhl_api.get(url)
     games = json_normalize(result.get("games", []), sep="_")
 
+    # Filter for columns to keep to get a consistent series of columns
+    columns_to_keep: list[str] = [
+        "id",
+        "season",
+        "game_type",
+        "game_date",
+        "start_time_utc",
+        "tv_broadcasts",
+        "goals",
+        "game_state",
+        "game_schedule_state",
+        "neutral_site",
+        "venue_timezone",
+        "period",
+        "venue_default",
+        "away_team_id",
+        "away_team_name_default",
+        "away_team_abbrev",
+        "away_team_score",
+        "away_team_sog",
+        "home_team_id",
+        "home_team_name_default",
+        "home_team_abbrev",
+        "home_team_score",
+        "home_team_sog",
+        "clock_time_remaining",
+        "clock_seconds_remaining",
+        "clock_running",
+        "clock_in_intermission",
+        "period_descriptor_number",
+        "period_descriptor_period_type",
+        "period_descriptor_max_regulation_periods",
+        "game_outcome_last_period_type",
+    ]
+
     if len(games) == 0:
         context.log.info("No games returned from API. Partition will be skipped.")
-        return None
+        return pd.DataFrame(columns=columns_to_keep + ["_partition_key"])
     else:
         # Remove pre-existing data for this partition
         remove_existing_partition(duckdb, context)
 
         # Converting columns names to snake case
         games.columns = [to_snake_case(c) for c in games.columns]
-
-        # Filter for columns to keep to get a consistent series of columns
-        columns_to_keep = [
-            "id",
-            "season",
-            "game_type",
-            "game_date",
-            "start_time_utc",
-            "tv_broadcasts",
-            "goals",
-            "game_state",
-            "game_schedule_state",
-            "neutral_site",
-            "venue_timezone",
-            "period",
-            "venue_default",
-            "away_team_id",
-            "away_team_name_default",
-            "away_team_abbrev",
-            "away_team_score",
-            "away_team_sog",
-            "home_team_id",
-            "home_team_name_default",
-            "home_team_abbrev",
-            "home_team_score",
-            "home_team_sog",
-            "clock_time_remaining",
-            "clock_seconds_remaining",
-            "clock_running",
-            "clock_in_intermission",
-            "period_descriptor_number",
-            "period_descriptor_period_type",
-            "period_descriptor_max_regulation_periods",
-            "game_outcome_last_period_type",
-        ]
 
         # Fill columns which are not present with NaN
         games = games.reindex(columns=columns_to_keep)

@@ -66,7 +66,9 @@ class TestNhlGamesFinal:
         result = raw_nhl_games_final(context=context)
 
         # Assertions
-        assert result is None
+        assert isinstance(result, pd.DataFrame)
+        assert len(result) == 0
+        assert "id" in result.columns
 
 
 class TestNhlStandingsNow:
