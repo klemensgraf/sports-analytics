@@ -141,11 +141,11 @@ def raw_nhl_players(
 ) -> pd.DataFrame:
     """
     Aggregate every NHL team's current roster into a single DataFrame.
-
-    Queries the raw.nhl_standings_now table to obtain each team's abbreviation and name, calls the roster API for each team, concatenates players from all position groups, adds team_name and team_abbrev columns, and converts column names to snake_case.
-
+    
+    Each row represents a player and includes team metadata; column names are converted to snake_case and a `_loaded_at` date column is added.
+    
     Returns:
-        pd.DataFrame: A DataFrame containing all players from every team's current roster with team metadata and snake_case column names.
+        pd.DataFrame: DataFrame containing all players from every team's current roster with `team_name`, `team_abbrev`, snake_case column names, and a `_loaded_at` load date.
     """
     table_name = "raw_nhl_standings_now"
     schema = "raw"
