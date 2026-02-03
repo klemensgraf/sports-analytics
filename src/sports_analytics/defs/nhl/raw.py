@@ -23,7 +23,7 @@ from sports_analytics.utils.helpers import (
 )
 def raw_nhl_games_final(
     context: dg.AssetExecutionContext, nhl_api: NhlAPIResource, duckdb: DuckDBResource
-) -> pd.DataFrame:
+) -> pd.DataFrame | None:
     """
     Fetch normalized NHL game records for the asset's partition date and prepare them for
     ingestion.
@@ -48,7 +48,7 @@ def raw_nhl_games_final(
 
     if len(games) == 0:
         context.log.info("No games returned from API. Partition will be skipped.")
-        return pd.DataFrame()
+        return None
     else:
         # Remove pre-existing data for this partition
         remove_existing_partition(duckdb, context)
@@ -141,9 +141,9 @@ def raw_nhl_players(
 ) -> pd.DataFrame:
     """
     Aggregate every NHL team's current roster into a single DataFrame.
-    
+
     Each row represents a player and includes team metadata; column names are converted to snake_case and a `_loaded_at` date column is added.
-    
+
     Returns:
         pd.DataFrame: DataFrame containing all players from every team's current roster with `team_name`, `team_abbrev`, snake_case column names, and a `_loaded_at` load date.
     """

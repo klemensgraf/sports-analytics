@@ -44,7 +44,7 @@ class TestRemoveExistingPartition:
 
         # Assertions
         mock_conn.execute.assert_called_once_with(
-            "DELETE FROM test_schema.test_table WHERE _partition_key = ?", ["2026-01-21"]
+            'DELETE FROM "test_schema"."test_table" WHERE _partition_key = ?', ["2026-01-21"]
         )
         mock_context.log.info.assert_called_once_with(
             "Rows deleted with partition key '2026-01-21': 6"
