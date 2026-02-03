@@ -51,7 +51,9 @@ def to_snake_case(text: str) -> str:
     return s4
 
 
-def remove_existing_partition(duckdb: DuckDBResource, context: dg.AssetExecutionContext) -> None:
+def remove_existing_partition(
+    duckdb: DuckDBResource, context: dg.AssetExecutionContext
+) -> None:
     """
     Delete pre-existing rows for the current partition in the destination table.
 
@@ -93,9 +95,12 @@ def remove_existing_partition(duckdb: DuckDBResource, context: dg.AssetExecution
             safe_table = _quote_indent(table_name)
 
             result = conn.execute(
-                f"DELETE FROM {safe_schema}.{safe_table} WHERE _partition_key = ?", [partition_key]
+                f"DELETE FROM {safe_schema}.{safe_table} WHERE _partition_key = ?",
+                [partition_key],
             ).fetchall()[0]
-            context.log.info(f"Rows deleted with partition key '{partition_key}': {result[0]}")
+            context.log.info(
+                f"Rows deleted with partition key '{partition_key}': {result[0]}"
+            )
             return
     except CatalogException as e:
         if "does not exist" in str(e).lower():
