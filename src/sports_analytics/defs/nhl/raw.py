@@ -1,16 +1,22 @@
+import json
+from datetime import date
+
 import dagster as dg
 import pandas as pd
 from dagster_duckdb import DuckDBResource
 from pandas import json_normalize
-from datetime import date
 
 from sports_analytics.defs.nhl.partitions import games_daily_partition
 from sports_analytics.utils.apis import NhlAPIResource
-from sports_analytics.utils.helpers import remove_existing_partition, to_snake_case
+from sports_analytics.utils.helpers import (
+    parse_nested_datatype,
+    remove_existing_partition,
+    to_snake_case,
+)
 
 
 @dg.asset(
-    metadata={"partition_expr": "partition_key"},
+    metadata={"partition_expr": "_partition_key"},
     group_name="raw",
     kinds={"python"},
     partitions_def=games_daily_partition,
@@ -19,12 +25,18 @@ def raw_nhl_games_final(
     context: dg.AssetExecutionContext, nhl_api: NhlAPIResource, duckdb: DuckDBResource
 ) -> pd.DataFrame:
     """
-    Fetch normalized NHL game records for the asset's partition date and prepare them for ingestion.
+    Fetch normalized NHL game records for the asset's partition date and prepare them for
+    ingestion.
 
-    This function calls the NHL score endpoint for the execution partition date, flattens the returned games into a pandas DataFrame with snake_case column names, adds a `partition_key` column, removes any existing data for the same partition via the provided DuckDB resource, and retains only rows where `game_state` equals "OFF".
+    This function calls the NHL score endpoint for the execution partition date, flattens the
+    returned games into a pandas DataFrame with snake_case column names, adds a `_partition_key`
+    column, removes any existing data for the same partition via the provided DuckDB resource,
+    and retains only rows where `game_state` equals "OFF".
 
     Returns:
-        pd.DataFrame: DataFrame of normalized game records for the partition date; columns are in snake_case and include `partition_key`. Rows correspond to games with `game_state == "OFF"`.
+        pd.DataFrame: DataFrame of normalized game records for the partition date; columns are in
+            snake_case and include `_partition_key`. Rows correspond to games with
+            `game_state == "OFF"`.
     """
     partition_key = context.partition_key
 
@@ -34,20 +46,67 @@ def raw_nhl_games_final(
     result = nhl_api.get(url)
     games = json_normalize(result.get("games", []), sep="_")
 
-    # Remove pre-existing data for this partition
-    remove_existing_partition(duckdb, context)
+    # Filter for columns to keep to get a consistent series of columns
+    columns_to_keep: list[str] = [
+        "id",
+        "season",
+        "game_type",
+        "game_date",
+        "start_time_utc",
+        "tv_broadcasts",
+        "goals",
+        "game_state",
+        "game_schedule_state",
+        "neutral_site",
+        "venue_timezone",
+        "period",
+        "venue_default",
+        "away_team_id",
+        "away_team_name_default",
+        "away_team_abbrev",
+        "away_team_score",
+        "away_team_sog",
+        "home_team_id",
+        "home_team_name_default",
+        "home_team_abbrev",
+        "home_team_score",
+        "home_team_sog",
+        "clock_time_remaining",
+        "clock_seconds_remaining",
+        "clock_running",
+        "clock_in_intermission",
+        "period_descriptor_number",
+        "period_descriptor_period_type",
+        "period_descriptor_max_regulation_periods",
+        "game_outcome_last_period_type",
+    ]
 
-    # Converting columns names to snake case
-    games.columns = [to_snake_case(c) for c in games.columns]
+    if len(games) == 0:
+        context.log.info("No games returned from API. Partition will be skipped.")
+        return pd.DataFrame(columns=columns_to_keep + ["_partition_key"])
+    else:
+        # Remove pre-existing data for this partition
+        remove_existing_partition(duckdb, context)
 
-    # Adding `partition_key` to data
-    games["partition_key"] = partition_key
+        # Converting columns names to snake case
+        games.columns = [to_snake_case(c) for c in games.columns]
 
-    if len(games) > 0:
+        # Fill columns which are not present with NaN
+        games = games.reindex(columns=columns_to_keep)
+
         # Filter for unfinished games and remove them
         games = games[games["game_state"] == "OFF"]
 
-    return games
+        # Convert nested data types
+        games["goals"] = games["goals"].map(parse_nested_datatype)
+        games["goals"] = games["goals"].map(
+            lambda v: None if v is None else json.dumps(v, ensure_ascii=False)
+        )
+
+        # Adding `partition_key` to data
+        games["_partition_key"] = partition_key
+
+        return games
 
 
 @dg.asset(group_name="raw", kinds={"python"})
@@ -83,10 +142,10 @@ def raw_nhl_players(
     """
     Aggregate every NHL team's current roster into a single DataFrame.
 
-    Queries the raw.nhl_standings_now table to obtain each team's abbreviation and name, calls the roster API for each team, concatenates players from all position groups, adds team_name and team_abbrev columns, and converts column names to snake_case.
+    Each row represents a player and includes team metadata; column names are converted to snake_case and a `_loaded_at` date column is added.
 
     Returns:
-        pd.DataFrame: A DataFrame containing all players from every team's current roster with team metadata and snake_case column names.
+        pd.DataFrame: DataFrame containing all players from every team's current roster with `team_name`, `team_abbrev`, snake_case column names, and a `_loaded_at` load date.
     """
     table_name = "raw_nhl_standings_now"
     schema = "raw"
@@ -123,5 +182,8 @@ def raw_nhl_players(
         # Add roster to a list to concat on all teams afterwards
         rosters.append(roster)
 
+    players = pd.concat(rosters, ignore_index=True)
+    players["_loaded_at"] = date.today()
+
     # Return all players from each's team roster
-    return pd.concat(rosters, ignore_index=True)
+    return players

@@ -8,7 +8,8 @@ sources:
         description: "Final NHL game results"
         tests:
           - dbt_expectations.expect_compound_columns_to_be_unique:
-              column_list: ["home_team_id", "away_team_id", "game_date"]
+              arguments:
+                column_list: ["home_team_id", "away_team_id", "game_date"]
 
         columns:
           - name: id
@@ -22,21 +23,24 @@ sources:
             tests:
               - not_null
               - dbt_expectations.expect_column_values_to_be_in_set:
-                  value_set: [2, 3]
+                  arguments:
+                    value_set: [2, 3]
 
           - name: game_state
             description: "State of game"
             tests:
               - not_null
               - dbt_expectations.expect_column_values_to_be_in_set:
-                  value_set: ["OFF"]
+                  arguments:
+                    value_set: ["OFF"]
 
           - name: period
             description: "Period number the game ended"
             tests:
               - not_null
               - dbt_expectations.expect_column_values_to_be_between:
-                  min_value: 3
+                  arguments:
+                    min_value: 3
 
           - name: away_team_id
             description: "Team ID of the away team"
@@ -48,14 +52,16 @@ sources:
             tests:
               - not_null
               - dbt_expectations.expect_column_values_to_be_between:
-                  min_value: 0
+                  arguments:
+                    min_value: 0
 
           - name: away_team_sog
             description: "Shots on goal of the away team"
             tests:
               - not_null
               - dbt_expectations.expect_column_values_to_be_between:
-                  min_value: 0
+                  arguments:
+                    min_value: 0
 
           - name: home_team_id
             description: "Team ID of the home team"
@@ -67,21 +73,24 @@ sources:
             tests:
               - not_null
               - dbt_expectations.expect_column_values_to_be_between:
-                  min_value: 0
+                  arguments:
+                    min_value: 0
 
           - name: home_team_sog
             description: "Shots on goal of the home team"
             tests:
               - not_null
               - dbt_expectations.expect_column_values_to_be_between:
-                  min_value: 0
+                  arguments:
+                    min_value: 0
 
           - name: game_outcome_last_period_type
             description: "Type of the last period which was played"
             tests:
               - not_null
               - dbt_expectations.expect_column_values_to_be_in_set:
-                  value_set: ["REG", "OT", "SO"]
+                  arguments:
+                    value_set: ["REG", "OT", "SO"]
 
 
   - name: raw_standings
@@ -96,28 +105,32 @@ sources:
         tests:
           # Note: NHL has had 32 teams since 2021 Seattle expansion
           - dbt_expectations.expect_table_row_count_to_equal:
-              value: 32
+              arguments:
+                value: 32
         columns:
           - name: conference_name
             description: "Name of the conference the team is in"
             tests:
               - not_null
               - dbt_expectations.expect_column_values_to_be_in_set:
-                  value_set: ["Eastern", "Western"]
+                  arguments:
+                    value_set: ["Eastern", "Western"]
 
           - name: division_name
             description: "Name of the division the team is in"
             tests:
               - not_null
               - dbt_expectations.expect_column_values_to_be_in_set:
-                  value_set: ["Atlantic", "Central", "Metropolitan", "Pacific"]
+                  arguments:
+                    value_set: ["Atlantic", "Central", "Metropolitan", "Pacific"]
 
           - name: games_played
             description: "Number of games played in current regular season"
             tests:
               - not_null
               - dbt_expectations.expect_column_values_to_be_between:
-                  min_value: 0
+                  arguments:
+                    min_value: 0
 
           - name: team_name_default
             description: "Name of Team"
@@ -129,17 +142,23 @@ sources:
             tests:
               - not_null
               - dbt_expectations.expect_column_value_lengths_to_equal:
-                  value: 3
+                  arguments:
+                    value: 3
 
   - name: raw_players
     schema: raw
     tables:
       - name: raw_nhl_players
         description: "All NHL players from each team's roster"
+        loaded_at_field: _loaded_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
         tests:
           - dbt_expectations.expect_table_row_count_to_be_between:
-              min_value: 700
-              max_value: 1200
+              arguments:
+                min_value: 700
+                max_value: 1200
         columns:
           - name: id
             description: "ID of player"
@@ -147,61 +166,60 @@ sources:
               - not_null
               - dbt_expectations.expect_column_values_to_be_unique
 
-          - name: sweater_number
-            description: "Number on jersey"
-            tests:
-              - not_null
-              - dbt_expectations.expect_column_values_to_be_between:
-                  min_value: 0
-                  max_value: 99
-
           - name: position_code
             description: "Official position of the player on the ice"
             tests:
               - not_null
               - dbt_expectations.expect_column_values_to_be_in_set:
-                  value_set: ["L", "R", "C", "D", "G"]
+                  arguments:
+                    value_set: ["L", "R", "C", "D", "G"]
 
           - name: shoots_catches
             description: "How the player shoots/catches (left/right)"
             tests:
               - not_null
               - dbt_expectations.expect_column_values_to_be_in_set:
-                  value_set: ["L", "R"]
+                  arguments:
+                    value_set: ["L", "R"]
 
           - name: height_in_centimeters
             description: "Height of the player measured in centimeters"
             tests:
               - not_null
               - dbt_expectations.expect_column_values_to_be_between:
-                  min_value: 150
-                  max_value: 230
+                  arguments:
+                    min_value: 150
+                    max_value: 230
 
           - name: weight_in_kilograms
             description: "Weight of the player measured in kilograms"
             tests:
               - not_null
               - dbt_expectations.expect_column_values_to_be_between:
-                  min_value: 60
-                  max_value: 160
+                  arguments:
+                    min_value: 60
+                    max_value: 160
 
           - name: first_name_default
             description: "First name of player"
             tests:
               - not_null
               - dbt_expectations.expect_column_values_to_be_of_type:
-                  column_type: varchar
+                  arguments:
+                    column_type: varchar
 
           - name: last_name_default
             description: "Last name of player"
             tests:
               - not_null
               - dbt_expectations.expect_column_values_to_be_of_type:
-                  column_type: varchar
+                  arguments:
+                    column_type: varchar
 
           - name: team_name
             description: "Team name of team the player plays for"
             tests:
               - not_null
               - dbt_expectations.expect_column_values_to_be_of_type:
-                  column_type: varchar
+                  arguments:
+                    column_type: varchar

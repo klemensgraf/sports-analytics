@@ -68,6 +68,7 @@ class TestNhlGamesFinal:
         # Assertions
         assert isinstance(result, pd.DataFrame)
         assert len(result) == 0
+        assert "id" in result.columns
 
 
 class TestNhlStandingsNow:
