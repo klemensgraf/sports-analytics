@@ -116,31 +116,18 @@ def remove_existing_partition(duckdb: DuckDBResource, context: dg.AssetExecution
 
 def parse_nested_datatype(s: Any) -> Any | None:
     """
-    Parse a value that may contain a nested structure encoded as TEXT.
-
-    The input typically comes from a Pandas Series loaded from DuckDB where a
-    nested column (e.g. list/dict) was stored as TEXT. This function converts:
-
-    - missing values (None/NaN/pd.NA) -> None
-    - valid JSON strings -> Python objects via json.loads
-    - Python-literal strings (e.g. "[{'a': 1}]" with single quotes) -> Python objects
-      via ast.literal_eval
-    - already-parsed objects (list/dict) -> returned unchanged
-
-    Parameters
-    ----------
-    s : Any
-        The input value (string, list, dict, or missing).
-
-    Returns
-    -------
-    Any | None
-        Parsed Python object, the original object if already parsed, or None if missing.
-
-    Raises
-    ------
-    ValueError, SyntaxError
-        If parsing fails for both JSON and Python literal formats.
+    Parse a value that may represent a nested Python structure encoded as text.
+    
+    Converts missing or sentinel values to None, leaves already-parsed lists/dicts unchanged, and parses strings as JSON first, falling back to Python literal evaluation if JSON parsing fails.
+    
+    Parameters:
+        s (Any): Input value which may be None, a numeric/sentinel, an already-parsed object, or a string encoding a nested structure.
+    
+    Returns:
+        Any | None: The parsed Python object (list/dict/other), the original value if it is not a string and not a missing sentinel, or None for missing/null-like inputs.
+    
+    Raises:
+        ValueError, SyntaxError: If the input is a string that cannot be parsed as valid JSON nor as a valid Python literal.
     """
     # Handle None quickly
     if s is None:
