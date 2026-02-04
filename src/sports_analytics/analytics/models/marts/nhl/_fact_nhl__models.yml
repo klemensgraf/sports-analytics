@@ -10,7 +10,7 @@ models:
       - dbt_expectations.expect_table_row_count_to_equal:
           arguments:
             value: 0
-          row_condition: "home_team_sk = away_team_sk"
+            row_condition: "home_team_sk = away_team_sk"
     columns:
       - name: game_id
         tests:
@@ -38,7 +38,7 @@ models:
       - dbt_expectations.expect_table_row_count_to_equal:
           arguments:
             value: 0
-          row_condition: "team_sk = opponent_team_sk"
+            row_condition: "team_sk = opponent_team_sk"
     columns:
       - name: game_id
         tests:

@@ -99,7 +99,7 @@ models:
           - dbt_expectations.expect_column_values_to_be_between:
               arguments:
                 min_value: 0
-                max_value: 52
+                max_value: 53
       - name: day_of_week
         tests:
           - not_null

@@ -6,7 +6,7 @@ with source as (
     division_name,
     division_abbrev,
     conference_name,
-    conference_abbrev,
+    conference_abbrev
   from {{ ref('stg_nhl_teams') }}
 ),
 
