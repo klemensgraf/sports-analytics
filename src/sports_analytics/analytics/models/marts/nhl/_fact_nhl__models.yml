@@ -1,0 +1,71 @@
+version: 2
+
+models:
+  - name: fact_game
+    description: "Measurable metrics about games"
+    tests:
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          arguments:
+            min_value: 1
+      - dbt_expectations.expect_table_row_count_to_equal:
+          arguments:
+            value: 0
+          row_condition: "home_team_sk = away_team_sk"
+    columns:
+      - name: game_id
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_unique
+      - name: date_sk
+        tests:
+          - not_null
+      - name: home_team_sk
+        tests:
+          - not_null
+      - name: away_team_sk
+        tests:
+          - not_null
+
+  - name: fact_team_game
+    description: "Measurable metrics for each team on each game"
+    tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list: ["game_id", "team_sk"]
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          arguments:
+            min_value: 1
+      - dbt_expectations.expect_table_row_count_to_equal:
+          arguments:
+            value: 0
+          row_condition: "team_sk = opponent_team_sk"
+    columns:
+      - name: game_id
+        tests:
+          - not_null
+      - name: date_sk
+        tests:
+          - not_null
+      - name: team_sk
+        tests:
+          - not_null
+      - name: opponent_team_sk
+        tests:
+          - not_null
+
+  - name: fact_goal
+    description: "A record for each goal"
+    tests:
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          arguments:
+            column_list: ["game_id", "goal_idx"]
+    columns:
+      - name: game_id
+        tests:
+          - not_null
+      - name: date_sk
+        tests:
+          - not_null
+      - name: team_sk
+        tests:
+          - not_null
