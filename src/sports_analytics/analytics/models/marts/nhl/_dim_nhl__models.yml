@@ -1,0 +1,116 @@
+version: 2
+
+models:
+  - name: dim_team
+    description: "Each team with essential attributes"
+    columns:
+      - name: team_sk
+        description: "Created surrogate key for teams"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_unique
+      - name: team_abbrev
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_unique
+          - dbt_expectations.expect_column_values_to_match_regex:
+              arguments:
+                regex: "^[A-Z]{3}$"
+
+  - name: dim_player
+    description: "Each player with attributes"
+    columns:
+      - name: player_sk
+        description: "Created surrogate key for players"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_unique
+      - name: player_id
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_unique
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments:
+                column_type: bigint
+      - name: height_cm
+        tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments:
+                column_type: integer
+      - name: weight_kg
+        tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments:
+                column_type: integer
+      - name: birth_date
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments:
+                column_type: date
+      - name: current_team_abbrev
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_match_regex:
+              arguments:
+                regex: "^[A-Z]{3}$"
+
+  - name: dim_date
+    description: "Table with a record for each day in between earliest and latest games"
+    columns:
+      - name: date_sk
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_unique
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments:
+                column_type: integer
+      - name: date
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_unique
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments:
+                column_type: date
+      - name: year
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 2010
+                max_value: 2099
+      - name: month
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 1
+                max_value: 12
+      - name: day
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 1
+                max_value: 31
+      - name: week_of_year
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+                max_value: 53
+      - name: day_of_week
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+                max_value: 6
+      - name: is_weekend_flag
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments:
+                column_type: boolean
+

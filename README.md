@@ -36,54 +36,9 @@ The pipeline currently includes:
 - **DBT Integration**: Fully configured transformation layer with Dagster integration
   - 5 staging models for data normalization
   - 4 intermediate models for feature engineering and event-level analysis
-- **Data Quality**: 70+ comprehensive tests across all data sources, staging, and intermediate models using DBT expectations
+  - 6 mart models (3 fact tables + 3 dimension tables) in star schema design
+- **Data Quality**: 120+ comprehensive tests across all data sources, staging, intermediate, and mart models using DBT expectations
 - **Testing**: Unit tests for core utilities and data processing with CI/CD via GitHub Actions
-
-## Project Structure
-
-```text
-sports-analytics/
-├── src/sports_analytics/
-│   ├── analytics/               # DBT project root
-│   │   ├── dbt_project.yml      # DBT configuration
-│   │   ├── profiles.yml         # DBT connection profiles
-│   │   ├── packages.yml         # DBT package dependencies
-│   │   ├── models/
-│   │   │   ├── staging/
-│   │   │   │   └── nhl/
-│   │   │   │       ├── _nhl__sources.yml     # Source definitions with 50+ tests
-│   │   │   │       ├── _nhl__models.yml      # Staging model tests
-│   │   │   │       ├── stg_nhl_games.sql     # Game staging model
-│   │   │   │       ├── stg_nhl_players.sql   # Player staging model
-│   │   │   │       ├── stg_nhl_teams.sql     # Team staging model
-│   │   │   │       ├── stg_nhl_game_goals.sql    # Goal events staging
-│   │   │   │       └── stg_nhl_game_assists.sql  # Assist events staging
-│   │   │   └── intermediate/
-│   │   │       └── nhl/
-│   │   │           ├── _int_nhl__models.yml         # Intermediate model tests
-│   │   │           ├── int_nhl_game_base.sql        # Core game facts
-│   │   │           ├── int_nhl_team_game.sql        # Team-level game stats
-│   │   │           ├── int_nhl_goal_events.sql      # Goal event facts
-│   │   │           └── int_nhl_assist_events.sql    # Assist event facts
-│   │   └── dbt_packages/        # Installed DBT packages
-│   ├── defs/
-│   │   ├── nhl/
-│   │   │   ├── raw.py           # NHL raw data ingestion assets
-│   │   │   ├── partitions.py    # Partition definitions
-│   │   │   └── constants.py     # Configuration constants
-│   │   ├── dbt.py               # DBT-Dagster integration
-│   │   ├── project.py           # DBT project configuration
-│   │   └── resources.py         # Dagster resources (DB, API, DBT)
-│   ├── utils/
-│   │   ├── apis.py              # API client implementations
-│   │   └── helpers.py           # Utility functions
-│   └── definitions.py           # Main Dagster definitions
-├── tests/
-│   └── unit/                    # Unit test suite
-│       ├── assets/              # Asset tests
-│       └── utils/               # Utility tests
-└── pyproject.toml               # Project dependencies
-```
 
 ## Getting Started
 
@@ -176,7 +131,7 @@ pytest --cov=sports_analytics
 
 ### Data Quality Testing
 
-The project implements comprehensive data quality testing using DBT with 70+ tests across all layers:
+The project implements comprehensive data quality testing using DBT with 120+ tests across all layers:
 
 **Source Tests** (50+ tests across 3 raw data sources):
 
@@ -212,6 +167,16 @@ The project implements comprehensive data quality testing using DBT with 70+ tes
    - `int_nhl_goal_events`: Compound uniqueness (game_id, goal_idx)
    - `int_nhl_assist_events`: Compound uniqueness (game_id, goal_idx, assist_idx)
 
+**Mart Model Tests** (star schema validation):
+   - **Fact Tables**: Grain validation, surrogate key relationships, row count checks
+     - `fact_game`: Unique game IDs, valid team surrogate keys
+     - `fact_team_game`: Compound uniqueness (game_id, team_sk)
+     - `fact_goal`: Compound uniqueness (game_id, goal_idx)
+   - **Dimension Tables**: Surrogate key uniqueness, attribute validation
+     - `dim_team`: Unique team surrogate keys, valid abbreviations
+     - `dim_player`: Unique player surrogate keys, data type validation
+     - `dim_date`: Date range validation, calendar attribute checks
+
 Run DBT tests:
 
 ```bash
@@ -245,10 +210,16 @@ dbt test --project-dir src/sports_analytics/analytics
     - `int_nhl_team_game`: Team-level statistics per game
     - `int_nhl_goal_events`: Goal event facts and context
     - `int_nhl_assist_events`: Assist event facts linked to goals
+  - **6 Mart Models**: Star schema for analytics and ML
+    - **Fact Tables** (3): `fact_game`, `fact_team_game`, `fact_goal`
+    - **Dimension Tables** (3): `dim_team`, `dim_player`, `dim_date`
+    - Surrogate keys for relationships
+    - Optimized for analytical queries and model training
   - DBT packages: `dbt_expectations` (v0.10.10), `dbt_date` (v0.17.1)
 - **Data Quality**:
-  - 70+ comprehensive tests across raw sources, staging models, and intermediate models
+  - 120+ comprehensive tests across raw sources, staging, intermediate, and mart models
   - Validation for uniqueness, ranges, types, and business logic
+  - Star schema integrity checks (surrogate keys, grain validation)
   - Automated testing using DBT expectations
 - **Testing & CI/CD**:
   - Comprehensive unit test suite
@@ -257,13 +228,12 @@ dbt test --project-dir src/sports_analytics/analytics
 
 ### In Progress
 
-- DBT mart models for final analytical datasets
-- Enhanced feature transformations for ML readiness
+- Feature engineering for ML models
+- Additional fact/dimension tables as needed
 - Expanded data quality monitoring and alerting
 
 ### Planned
 
-- Feature engineering for ML models
 - ML model training pipeline
 - Model evaluation and versioning
 - Prediction API
