@@ -91,10 +91,15 @@ jobs:
         shell: bash
         run: |
           SHORT_SHA="${GITHUB_SHA::7}"
-          BRANCH="${GITHUB_REF_NAME}"
-          SAFE_BRANCH=$(echo "$BRANCH" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9._-]/-/g')
+          BRANCH="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"   # PR -> head_ref, sonst -> ref_name
+
+          SAFE_BRANCH=$(echo "$BRANCH" \
+            | tr '[:upper:]' '[:lower:]' \
+            | sed 's/[^a-z0-9._-]/-/g; s/--*/-/g; s/^-//; s/-$//' \
+            | cut -c1-120)
+
           IMAGE_TAG="${SHORT_SHA}-${SAFE_BRANCH}"
-          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+          echo "IMAGE_TAG=${IMAGE_TAG}" >> "$GITHUB_ENV"
           echo "Generated image tag: $IMAGE_TAG"
 
       # Enable buildx for caching
