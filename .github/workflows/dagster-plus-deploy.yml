@@ -38,7 +38,7 @@ jobs:
         uses: dagster-io/dagster-cloud-action/actions/utils/prerun@v1.12.13
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         if: steps.prerun.outputs.result != 'skip'
         with:
           ref: ${{ github.head_ref || github.ref_name }}
@@ -160,7 +160,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.head_ref || github.ref_name }}
 
