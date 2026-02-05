@@ -21,7 +21,7 @@ RUN --mount=type=cache,target=/root/.cache \
     dagster-dbt project prepare-and-package --file src/sports_analytics/defs/project.py
 
 # Use a final image without uv
-FROM python:3.13-slim-bookworm
+FROM python:3.14-slim-bookworm
 
 # Copy the application from the builder
 COPY --from=builder /app /app
