@@ -26,6 +26,10 @@ FROM python:3.13-slim-bookworm
 # Copy the application from the builder
 COPY --from=builder /app /app
 
+# Create and switch to a non-root user
+RUN useradd -m -u 10001 appuser && chown -R appuser:appuser /app
+USER appuser
+
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
 

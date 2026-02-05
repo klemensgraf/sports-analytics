@@ -9,7 +9,7 @@ analytics:
       path: "{{env_var('DUCKDB_DATABASE_TEST')}}"
     ci:
       type: duckdb
-      path: "/tmp/duckdb.db"
+      path: "{{env_var('DUCKDB_DATABASE_CI', '/tmp/duckdb.db')}}"
     prod:
       type: duckdb
       path: "{{env_var('DUCKDB_DATABASE_PROD')}}"

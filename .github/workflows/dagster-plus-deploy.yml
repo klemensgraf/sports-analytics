@@ -6,6 +6,11 @@ on:
   pull_request: # For branch deployments
     types: [opened, synchronize, reopened, closed]
 
+permissions:
+  contents: read
+  packages: write
+  pull-requests: write
+
 concurrency:
   # Cancel in-progress deploys to the same branch
   group: ${{ github.ref }}-${{ github.event_name }}
@@ -33,7 +38,7 @@ jobs:
         uses: actions/checkout@v4
         if: steps.prerun.outputs.result != 'skip'
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.head_ref || github.ref_name }}
 
       # Detect if this is branch deployment and initialize the build session
       - name: Initialize build session
@@ -81,10 +86,14 @@ jobs:
       - name: Generate docker image tag
         id: generate-image-tag
         if: steps.prerun.outputs.result != 'skip'
-        run: echo "IMAGE_TAG=$GITHUB_SHA-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" >> $GITHUB_ENV && echo $IMAGE_TAG
+        run: |
+          IMAGE_TAG="$GITHUB_SHA-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+          echo "Generated image tag: $IMAGE_TAG"
 
       # Enable buildx for caching
       - name: Set up Docker Buildx
+        if: steps.prerun.outputs.result != 'skip'
         uses: docker/setup-buildx-action@v3
 
       # Login to the container registry
@@ -115,7 +124,7 @@ jobs:
         if: steps.prerun.outputs.result != 'skip'
         uses: dagster-io/dagster-cloud-action/actions/utils/dg-cli@v1.12.13
         with:
-          command: "plus deploy set-build-output --path=${{ env.DAGSTER_PROJECT_DIR }} --location-name=sports-analytics --image-tag=$IMAGE_TAG-sports-analytics"
+          command: "plus deploy set-build-output --path=${{ env.DAGSTER_PROJECT_DIR }} --location-name=sports-analytics --image-tag=${{ env.IMAGE_TAG }}-sports-analytics"
 
 
       # Deploy all code locations in this build session to Dagster Cloud
