@@ -1,0 +1,8 @@
+locations:
+  - location_name: sports-analytics
+    code_source:
+      package_name: sports_analytics.definitions
+    working_directory: ./src
+    build:
+      directory: ./
+      registry: "ghcr.io/klemensgraf/sports-analytics"
