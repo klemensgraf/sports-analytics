@@ -156,7 +156,7 @@ jobs:
 
   # Execute docker build on dependabot pull requests
   dependabot-smoke:
-    if: github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'
+    if: github.actor == 'dependabot[bot]' && github.event_name == 'pull_request' && github.event.action != 'closed'
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
