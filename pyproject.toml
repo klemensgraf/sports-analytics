@@ -3,8 +3,8 @@ name = "sports_analytics"
 requires-python = ">=3.12,<3.14"
 version = "0.1.0"
 dependencies = [
-    "dagster==1.12.10",
-    "dagster-cloud>=1.12.10",
+    "dagster==1.12.13",
+    "dagster-cloud>=1.12.13",
     "dagster-dbt>=0.28.10",
     "dagster-duckdb>=0.28.10",
     "dagster-duckdb-pandas>=0.28.10",
@@ -38,3 +38,6 @@ root_module = "sports_analytics"
 registry_modules = [
     "sports_analytics.components.*",
 ]
+
+[tool.dg.cli]
+suppress_warnings = ["project_and_activated_venv_mismatch"]
