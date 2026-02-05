@@ -24,6 +24,7 @@ env:
   REGISTRY_URL: ${{ vars.REGISTRY_URL }}
   PYTHON_VERSION: ${{ vars.PYTHON_VERSION }}
   DBT_TARGET: ${{ vars.DBT_TARGET }}
+  CODE_LOCATION_NAME: ${{ vars.CODE_LOCATION_NAME }}
 
 jobs:
   dagster-cloud-deploy:
@@ -110,22 +111,22 @@ jobs:
 
       # For each code location, the "build-push-action" builds the docker
       # image and a "set-build-output" command records the image tag for each code location.
-      - name: Build and upload Docker image for "sports-analytics"
+      - name: Build and upload Docker image for "${{ env.CODE_LOCATION_NAME }}"
         if: steps.prerun.outputs.result != 'skip'
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: ${{ env.REGISTRY_URL }}:${{ env.IMAGE_TAG }}-sports-analytics
+          tags: ${{ env.REGISTRY_URL }}:${{ env.IMAGE_TAG }}-${{ env.CODE_LOCATION_NAME }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Update build session with image tag for sports-analytics
+      - name: Update build session with image tag for ${{ env.CODE_LOCATION_NAME }}
         id: ci-set-build-output-example-location
         if: steps.prerun.outputs.result != 'skip'
         uses: dagster-io/dagster-cloud-action/actions/utils/dg-cli@v1.12.13
         with:
-          command: "plus deploy set-build-output --path=${{ env.DAGSTER_PROJECT_DIR }} --location-name=sports-analytics --image-tag=${{ env.IMAGE_TAG }}-sports-analytics"
+          command: "plus deploy set-build-output --target-path=${{ env.DAGSTER_PROJECT_DIR }} --location-name=${{ env.CODE_LOCATION_NAME }} --image-tag=${{ env.IMAGE_TAG }}-${{ env.CODE_LOCATION_NAME }}"
 
 
       # Deploy all code locations in this build session to Dagster Cloud
@@ -134,7 +135,7 @@ jobs:
         if: steps.prerun.outputs.result != 'skip'
         uses: dagster-io/dagster-cloud-action/actions/utils/dg-cli@v1.12.13
         with:
-          command: "plus deploy finish --path=${{ env.DAGSTER_PROJECT_DIR }}"
+          command: "plus deploy finish --target-path=${{ env.DAGSTER_PROJECT_DIR }}"
 
       # Update a PR comment - this runs always() so the comment is updated on success and failure
       - name: Update PR comment for branch deployments
