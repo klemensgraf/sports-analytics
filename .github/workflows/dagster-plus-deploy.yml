@@ -27,7 +27,7 @@ jobs:
       # output.result='skip' which is used to skip other steps in this workflow.
       - name: Pre-run checks
         id: prerun
-        uses: dagster-io/dagster-cloud-action/actions/utils/prerun@v1.12.10
+        uses: dagster-io/dagster-cloud-action/actions/utils/prerun@v1.12.13
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,7 +39,7 @@ jobs:
       - name: Initialize build session
         id: ci-init
         if: steps.prerun.outputs.result != 'skip'
-        uses: dagster-io/dagster-cloud-action/actions/utils/dg-deploy-init@v1.12.10
+        uses: dagster-io/dagster-cloud-action/actions/utils/dg-deploy-init@v1.12.13
         with:
           project_dir: ${{ env.DAGSTER_PROJECT_DIR }}
           # A full deployment name. If this run is for a pull request, this value will be used as
@@ -72,7 +72,7 @@ jobs:
       # Refresh state for any StateBackedComponents in the project
       - name: Refresh defs state
         if: steps.prerun.outputs.result != 'skip'
-        uses: dagster-io/dagster-cloud-action/actions/utils/dg-cli@v1.12.10
+        uses: dagster-io/dagster-cloud-action/actions/utils/dg-cli@v1.12.13
         with:
           command: "plus deploy refresh-defs-state"
 
@@ -113,7 +113,7 @@ jobs:
       - name: Update build session with image tag for sports-analytics
         id: ci-set-build-output-example-location
         if: steps.prerun.outputs.result != 'skip'
-        uses: dagster-io/dagster-cloud-action/actions/utils/dg-cli@v1.12.10
+        uses: dagster-io/dagster-cloud-action/actions/utils/dg-cli@v1.12.13
         with:
           command: "plus deploy set-build-output --path=${{ env.DAGSTER_PROJECT_DIR }} --location-name=sports-analytics --image-tag=$IMAGE_TAG-sports-analytics"
 
@@ -122,7 +122,7 @@ jobs:
       - name: Deploy to Dagster Cloud
         id: ci-deploy
         if: steps.prerun.outputs.result != 'skip'
-        uses: dagster-io/dagster-cloud-action/actions/utils/dg-cli@v1.12.10
+        uses: dagster-io/dagster-cloud-action/actions/utils/dg-cli@v1.12.13
         with:
           command: "plus deploy finish --path=${{ env.DAGSTER_PROJECT_DIR }}"
 
@@ -130,7 +130,7 @@ jobs:
       - name: Update PR comment for branch deployments
         id: ci-notify
         if: steps.prerun.outputs.result != 'skip' && always()
-        uses: dagster-io/dagster-cloud-action/actions/utils/dagster-cloud-cli@v1.12.10
+        uses: dagster-io/dagster-cloud-action/actions/utils/dagster-cloud-cli@v1.12.13
         with:
           command: "ci notify --project-dir=${{ env.DAGSTER_PROJECT_DIR }}"
 
@@ -138,6 +138,6 @@ jobs:
       - name: Generate a summary
         id: ci-summary
         if: steps.prerun.outputs.result != 'skip' && always()
-        uses: dagster-io/dagster-cloud-action/actions/utils/dagster-cloud-cli@v1.12.10
+        uses: dagster-io/dagster-cloud-action/actions/utils/dagster-cloud-cli@v1.12.13
         with:
           command: "ci status --output-format=markdown >> $GITHUB_STEP_SUMMARY"
