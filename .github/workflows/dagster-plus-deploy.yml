@@ -23,6 +23,7 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   REGISTRY_URL: ${{ vars.REGISTRY_URL }}
   PYTHON_VERSION: ${{ vars.PYTHON_VERSION }}
+  DBT_TARGET: ${{ vars.DBT_TARGET }}
 
 jobs:
   dagster-cloud-deploy:

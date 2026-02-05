@@ -38,3 +38,6 @@ root_module = "sports_analytics"
 registry_modules = [
     "sports_analytics.components.*",
 ]
+
+[tool.dg.cli]
+suppress_warnings = ["project_and_activated_venv_mismatch"]
