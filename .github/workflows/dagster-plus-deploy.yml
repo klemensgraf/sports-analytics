@@ -28,6 +28,7 @@ env:
 
 jobs:
   dagster-cloud-deploy:
+    if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-22.04
     steps:
       # If this is a closed PR the prerun step closes the branch deployment and returns
@@ -152,3 +153,25 @@ jobs:
         uses: dagster-io/dagster-cloud-action/actions/utils/dagster-cloud-cli@v1.12.13
         with:
           command: "ci status --output-format=markdown >> $GITHUB_STEP_SUMMARY"
+
+  # Execute docker build on dependabot pull requests
+  dependabot-smoke:
+    if: github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build image (no push)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: local/dependabot-smoke:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
