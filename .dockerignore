@@ -186,3 +186,6 @@ tests/
 
 # Ignore dbt user
 **/.user.yml
+
+# Custom secrets
+postgres.env

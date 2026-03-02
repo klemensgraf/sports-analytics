@@ -1,4 +1,4 @@
-# Use builder image from Astral
+# -- Use builder image from Astral
 FROM ghcr.io/astral-sh/uv:python3.13-bookworm-slim AS builder
 ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy
 ENV UV_PYTHON_DOWNLOADS=0
@@ -20,23 +20,19 @@ ENV DBT_TARGET=ci \
 RUN --mount=type=cache,target=/root/.cache \
     dagster-dbt project prepare-and-package --file src/sports_analytics/defs/project.py
 
-# Use a final image without uv
+# -- Use a final image without uv
 FROM python:3.13-slim-bookworm
 
 # Copy the application from the builder
 COPY --from=builder /app /app
 
-# Create and switch to a non-root user
-RUN useradd -m -u 10001 appuser && chown -R appuser:appuser /app
-USER appuser
+# Create non-root user
+# RUN useradd -m -u 10001 appuser && chown -R appuser:appuser /app
+# USER appuser
 
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
 
 WORKDIR /app
 
-# Make sure dagster-cloud is installed. Fail early here if not.
-RUN if ! dagster-cloud --version; then \
-        echo "Could not find the dagster-cloud package.  Make sure you include the dagster-cloud package in your project."; \
-        exit 1; \
-    fi
+EXPOSE 80
