@@ -16,7 +16,10 @@ class SportsAnalyticsCi:
         ],
         github_sa_key: Annotated[dagger.Secret, Doc("SSH key for GitHub authentication")],
         registry_token: Annotated[
-            Optional[dagger.Secret], Doc("Token for private container registry")
+            Optional[dagger.Secret], Doc("Token for authentication on container registry")
+        ],
+        registry_username: Annotated[
+            Optional[str], Doc("Username for authentication on container registry")
         ],
         registry_url: Annotated[Optional[str], Doc("Container registry URL")] = "",
     ) -> list[str]:
@@ -32,7 +35,7 @@ class SportsAnalyticsCi:
         # Setting registry url to local registry if it's empty
         if registry_url:
             runtime_image = runtime_image.with_registry_auth(
-                registry_url, "klemensgraf", registry_token
+                registry_url, registry_username, registry_token
             )
         else:
             registry_url = "ttl.sh"
@@ -77,7 +80,6 @@ class SportsAnalyticsCi:
     ) -> dagger.Container:
         """Build a ready-to-use development environment"""
         uv_cache = dag.cache_volume("uv-cache")
-        cache_root = dag.cache_volume("cache-root")
         dbt_home = dag.cache_volume("dbt-home")
 
         base = (
@@ -85,10 +87,7 @@ class SportsAnalyticsCi:
             .from_("ghcr.io/astral-sh/uv:python3.13-bookworm-slim")
             .with_workdir("/app")
             .with_env_variable("UV_COMPILE_BYTECODE", "1")
-            .with_env_variable("UV_LINK_MODE", "copy")
-            .with_env_variable("UV_PYTHON_DOWNLOADS", "0")
             .with_mounted_cache("/root/.cache/uv", uv_cache)
-            .with_mounted_cache("/root/.cache", cache_root)
             .with_mounted_cache("/root/.dbt", dbt_home)
         )
 
@@ -176,7 +175,7 @@ class SportsAnalyticsCi:
             )
             .with_exec(["git", "config", "user.name", "dagger-ci[bot]"])
             .with_exec(["git", "config", "user.email", "dagger@klemensgraf.com"])
-            .with_exec(["git", "tag", tag])
-            .with_exec(["git", "push", "-u", "origin", "--tags"])
+            .with_exec(["git", "tag", "-f", tag])
+            .with_exec(["git", "push", "origin", "--tags", "--force"])
             .stdout()
         )
