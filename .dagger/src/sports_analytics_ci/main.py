@@ -84,7 +84,7 @@ class SportsAnalyticsCi:
             .with_directory("/app", builder.directory("/app"))
             .with_workdir("/app")
             .with_env_variable("PATH", "/app/.venv/bin:$PATH", expand=True)
-            .with_exposed_port(80)
+            .with_exposed_port(8080)
         )
 
     @function
@@ -113,7 +113,7 @@ class SportsAnalyticsCi:
         ).with_exec(["uv", "sync", "--frozen", "--no-install-project", "--no-dev"])
 
         return (
-            deps.with_directory("/app", source.directory("/src"))
+            deps.with_directory("/app/src", source.directory("/src"))
             .with_file("uv.lock", source.file("uv.lock"))
             .with_exec(["uv", "sync", "--frozen", "--no-dev", "--package", "sports_analytics"])
             .with_env_variable("DBT_TARGET", "ci")
@@ -125,7 +125,7 @@ class SportsAnalyticsCi:
                     "project",
                     "prepare-and-package",
                     "--file",
-                    "/app/sports_analytics/defs/project.py",
+                    "/app/src/sports_analytics/defs/project.py",
                 ]
             )
         )
