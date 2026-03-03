@@ -14,7 +14,7 @@ class SportsAnalyticsCi:
             Optional[str],
             Doc("Current working branch != main -> not a production image"),
         ],
-        github_sa_key: Annotated[Optional[dagger.Secret], Doc("SSH key for GitHub authentication")],
+        github_token: Annotated[Optional[dagger.Secret], Doc("Secret for accessing GitHub")],
         registry_token: Annotated[
             Optional[dagger.Secret], Doc("Token for authentication on container registry")
         ],
@@ -37,10 +37,10 @@ class SportsAnalyticsCi:
                 not registry_url
                 or registry_username is None
                 or registry_token is None
-                or github_sa_key is None
+                or github_token is None
             ):
                 raise ValueError(
-                    "main publish requires registry_url, registry_username, registry_token, and github_sa_key"
+                    "main publish requires registry_url, registry_username, registry_token, and github_token"
                 )
 
         # Use configured registry auth when registry is provided
@@ -66,7 +66,7 @@ class SportsAnalyticsCi:
             addr.append(a)
 
         if branch_name == "main" and release_tag is not None:
-            await self.git_tagger(source, tag=release_tag, github_sa_key=github_sa_key)
+            await self.git_tagger(source, tag=release_tag, github_token=github_token)
 
         return addr
 
@@ -141,10 +141,23 @@ class SportsAnalyticsCi:
             .from_("alpine:3")
             .with_workdir("/app")
             .with_directory("/app", source)
-            .with_exec(["apk", "add", "--no-cache", "git", "openssh"])
+            .with_exec(["apk", "add", "--no-cache", "git"])
         )
 
-        return base
+        # Normalize origin URL to HTTPS for token-based auth
+        remote_url = (await base.with_exec(["git", "remote", "get-url", "origin"]).stdout()).strip()
+        if remote_url.startswith("https://"):
+            https_url = remote_url
+        elif remote_url.startswith("ssh://git@"):
+            https_url = "https://" + remote_url.removeprefix("ssh://git@")
+        elif remote_url.startswith("git@") and ":" in remote_url:
+            host_path = remote_url.removeprefix("git@")
+            host, path = host_path.split(":", 1)
+            https_url = f"https://{host}/{path}"
+        else:
+            raise ValueError(f"Unsupported git origin URL format: {remote_url}")
+
+        return base.with_exec(["git", "remote", "set-url", "origin", https_url])
 
     @function
     async def git_sha(
@@ -170,25 +183,16 @@ class SportsAnalyticsCi:
         self,
         source: Annotated[dagger.Directory, DefaultPath("/"), Doc("Source code directory")],
         tag: Annotated[str, Doc("Tag for current git commit")],
-        github_sa_key: Annotated[dagger.Secret, Doc("SSH key for GitHub authentication")],
+        github_token: Annotated[dagger.Secret, Doc("Secret for accessing GitHub")],
     ) -> str:
         """Takes the calculated semantic version and tags the latest commit to main"""
         container = await self.git_container(source)
         return (
-            await container.with_mounted_secret("/root/.ssh/id_ed25519", github_sa_key)
-            .with_exec(
-                [
-                    "sh",
-                    "-c",
-                    "ssh-keyscan -t rsa,ecdsa,ed25519 github.com >> /root/.ssh/known_hosts",
-                ]
-            )
-            .with_env_variable(
-                "GIT_SSH_COMMAND",
-                "ssh -i /root/.ssh/id_ed25519 -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes",
-            )
+            await container.with_secret_variable("GH_TOKEN", github_token)
             .with_exec(["git", "config", "user.name", "dagger-ci[bot]"])
             .with_exec(["git", "config", "user.email", "dagger@klemensgraf.com"])
+            .with_exec(["apk", "add", "--no-cache", "github-cli"])
+            .with_exec(["gh", "auth", "setup-git"])
             .with_exec(["git", "tag", "-f", tag])
             .with_exec(["git", "push", "origin", "--force", f"refs/tags/{tag}"])
             .stdout()
