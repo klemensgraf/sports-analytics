@@ -30,7 +30,7 @@ class SportsAnalyticsCi:
 
         # Get tags dynamically
         commit_sha = await self.git_sha(source)
-        app_version = await self.app_version(source)
+        release_tag: Optional[str] = None
 
         if branch_name == "main":
             if (
@@ -53,7 +53,8 @@ class SportsAnalyticsCi:
 
         # Parse Git ref to branch name
         if branch_name == "main":
-            tags = [commit_sha, app_version, "main"]
+            release_tag = await self.app_version(source)
+            tags = [commit_sha, release_tag, "main"]
         elif branch_name is not None:
             branch_name = branch_name.replace("/", "-")
             tags = [commit_sha, branch_name, "dev"]
@@ -64,8 +65,8 @@ class SportsAnalyticsCi:
             a = await runtime_image.publish(f"{registry_url}/sports-analytics:{tag}")
             addr.append(a)
 
-        if branch_name == "main":
-            await self.git_tagger(source, tag=app_version, github_sa_key=github_sa_key)
+        if branch_name == "main" and release_tag is not None:
+            await self.git_tagger(source, tag=release_tag, github_sa_key=github_sa_key)
 
         return addr
 
