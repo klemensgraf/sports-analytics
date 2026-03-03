@@ -32,7 +32,18 @@ class SportsAnalyticsCi:
         commit_sha = await self.git_sha(source)
         app_version = await self.app_version(source)
 
-        # Setting registry url to local registry if it's empty
+        if branch_name == "main":
+            if (
+                not registry_url
+                or registry_username is None
+                or registry_token is None
+                or github_sa_key is None
+            ):
+                raise ValueError(
+                    "main publish requires registry_url, registry_username, registry_token, and github_sa_key"
+                )
+
+        # Use configured registry auth when registry is provided
         if registry_url:
             runtime_image = runtime_image.with_registry_auth(
                 registry_url, registry_username, registry_token
@@ -43,7 +54,6 @@ class SportsAnalyticsCi:
         # Parse Git ref to branch name
         if branch_name == "main":
             tags = [commit_sha, app_version, "main"]
-            await self.git_tagger(source, tag=app_version, github_sa_key=github_sa_key)
         elif branch_name is not None:
             branch_name = branch_name.replace("/", "-")
             tags = [commit_sha, branch_name, "dev"]
@@ -53,6 +63,9 @@ class SportsAnalyticsCi:
         for tag in tags:
             a = await runtime_image.publish(f"{registry_url}/sports-analytics:{tag}")
             addr.append(a)
+
+        if branch_name == "main":
+            await self.git_tagger(source, tag=app_version, github_sa_key=github_sa_key)
 
         return addr
 
@@ -176,6 +189,6 @@ class SportsAnalyticsCi:
             .with_exec(["git", "config", "user.name", "dagger-ci[bot]"])
             .with_exec(["git", "config", "user.email", "dagger@klemensgraf.com"])
             .with_exec(["git", "tag", "-f", tag])
-            .with_exec(["git", "push", "origin", "--tags", "--force"])
+            .with_exec(["git", "push", "origin", "--force", f"refs/tags/{tag}"])
             .stdout()
         )
