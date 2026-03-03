@@ -14,7 +14,7 @@ class SportsAnalyticsCi:
             Optional[str],
             Doc("Current working branch != main -> not a production image"),
         ],
-        github_sa_key: Annotated[dagger.Secret, Doc("SSH key for GitHub authentication")],
+        github_sa_key: Annotated[Optional[dagger.Secret], Doc("SSH key for GitHub authentication")],
         registry_token: Annotated[
             Optional[dagger.Secret], Doc("Token for authentication on container registry")
         ],

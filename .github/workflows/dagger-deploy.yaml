@@ -1,0 +1,48 @@
+name: Run Dagger deploy or publish pipeline
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+env:
+  REGISTRY_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
+  REGISTRY_USERNAME: ${{ vars.REGISTRY_USERNAME }}
+  REGISTRY_URL: ${{ vars.REGISTRY_URL }}
+  GH_SA_KEY: ${{ secrets.GH_SA_KEY }}
+  DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
+
+jobs:
+  dagger-publish-deploy:
+    name: Run Dagger deploy or publish function
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: "read"
+
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: '0'
+          fetch-tags: 'true'
+
+      - name: Dagger Deploy pipeline
+        id: dagger-deploy
+        if: github.ref == 'refs/heads/main'
+        uses: dagger/dagger-for-github@v8.2.0
+        with:
+          version: "latest"
+          args: publish --github-sa-key=env://GH_SA_KEY --registry-token=env://REGISTRY_TOKEN --registry-username=$REGISTRY_USERNAME --registry-url=$REGISTRY_URL --branch-name=$GITHUB_REF_NAME
+          cloud-token: ${{ env.DAGGER_CLOUD_TOKEN }}
+
+      - name: Dagger Publish pipeline (for PRs)
+        id: dagger-publish
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: dagger/dagger-for-github@v8.2.0
+        with:
+          version: "latest"
+          args: publish --registry-token=env://REGISTRY_TOKEN --registry-username=$REGISTRY_USERNAME --registry-url=$REGISTRY_URL --branch-name=$GITHUB_HEAD_REF
+          cloud-token: ${{ env.DAGGER_CLOUD_TOKEN }}
