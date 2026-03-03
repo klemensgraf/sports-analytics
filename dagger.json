@@ -7,8 +7,8 @@
   "dependencies": [
     {
       "name": "nsv",
-      "source": "github.com/purpleclay/daggerverse/nsv@nsv/v0.4.0",
-      "pin": "c3f44e0c8a396b2adf024bb862714037ae4cc8e7"
+      "source": "github.com/purpleclay/daggerverse/nsv@nsv/v0.12.2",
+      "pin": "ee12c1a4a2630e194ec20c5a9959183e3a78c192"
     }
   ],
   "source": ".dagger"
