@@ -32,7 +32,7 @@ jobs:
 
       - name: Dagger publish pipeline
         id: dagger-publish
-        uses: dagger/dagger-for-github@v8.2.0
+        uses: dagger/dagger-for-github@v8.4.1
         with:
           version: "latest"
           args: publish --github-token=env://GITHUB_TOKEN --registry-token=env://REGISTRY_TOKEN --registry-username=$REGISTRY_USERNAME --registry-url=$REGISTRY_URL --branch-name=$GITHUB_REF_NAME
@@ -57,7 +57,7 @@ jobs:
       - name: Dagger Publish pipeline (for PRs)
         id: dagger-publish
         if: ${{ env.REGISTRY_TOKEN != '' }}
-        uses: dagger/dagger-for-github@v8.2.0
+        uses: dagger/dagger-for-github@v8.4.1
         with:
           version: "latest"
           args: publish --registry-token=env://REGISTRY_TOKEN --registry-username=$REGISTRY_USERNAME --registry-url=$REGISTRY_URL --branch-name=$GITHUB_HEAD_REF
