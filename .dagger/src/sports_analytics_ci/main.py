@@ -176,7 +176,9 @@ class SportsAnalyticsCi:
         source: Annotated[dagger.Directory, DefaultPath("/"), Doc("Source code directory")],
     ) -> str:
         """Returns the app semantic version from nsv module"""
-        return await dag.nsv(source).next()
+        return await dag.nsv(source).next(
+            major_prefixes=["breaking"], minor_prefixes=["feat"], patch_prefixes=["fix", "chore"]
+        )
 
     @function
     async def git_tagger(
