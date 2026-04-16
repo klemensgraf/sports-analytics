@@ -18,7 +18,7 @@ dev = [
     "dagster-webserver",
     "dagster-dg-cli",
     "ruff>=0.14.11",
-    "ty>=0.0.12",
+    "ty>=0.0.31",
     "black>=25.12.0",
     "pytest>=9.0.2",
     "pytest-cov>=7.0.0",
