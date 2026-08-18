@@ -1,31 +1,14 @@
+when:
+  - event: pull_request
+  - event: push
+    branch: main
 clone:
-  - name: git
-    image: woodpecker/plugin-git
+  git:
+    image: woodpeckerci/plugin-git
     settings:
       partial: false
       depth: 0
       tags: true
-
-services:
-  - name: docker
-    image: docker:27-dind
-    detach: true
-    privileged: true
-    environment:
-      DOCKER_TLS_CERTDIR: /woodpecker/dind-certs
-
-    commands:
-      - dockerd-entrypoint.sh
-
-    backend_options:
-      kubernetes:
-        resources:
-          requests:
-            cpu: 500m
-            memory: 1Gi
-          limits:
-            memory: 2Gi
-
 steps:
   - name: calculate-release-tags
     image: ghcr.io/purpleclay/nsv:v0.12.2
@@ -37,13 +20,8 @@ steps:
         branch: main
 
   - name: build-pull-request
-    image: woodpeckerci/plugin-docker-buildx:2
-    environment:
-      DOCKER_HOST: tcp://docker:2376
-      DOCKER_TLS_VERIFY: "1"
-      DOCKER_CERT_PATH: /woodpecker/dind-certs/client
+    image: woodpeckerci/plugin-docker-buildx:6
     settings:
-      daemon_off: true
       dockerfile: docker/Dockerfile
       repo: sports-analytics
       tags: "${CI_COMMIT_SHA}"
@@ -53,13 +31,8 @@ steps:
       - event: pull_request
 
   - name: publish-main
-    image: woodpeckerci/plugin-docker-buildx:2
-    environment:
-      DOCKER_HOST: tcp://docker:2376
-      DOCKER_TLS_VERIFY: "1"
-      DOCKER_CERT_PATH: /woodpecker/dind-certs/client
+    image: woodpeckerci/plugin-docker-buildx:6
     settings:
-      daemon_off: true
       dockerfile: docker/Dockerfile
       repo:
         from_secret: REGISTRY_IMAGE
@@ -84,7 +57,7 @@ steps:
       - IFS= read -r VERSION < .tags
       - git config user.name "woodpecker-ci[bot]"
       - git config user.email "woodpecker-ci@users.noreply.github.com"
-      - git tag -a "$VERSION" -m "chore: tagged release $VERSION"
+      - 'git tag -a "$VERSION" -m "chore: tagged release $VERSION"'
       - git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${CI_REPO}.git" "refs/tags/${VERSION}"
     when:
       - event: push
