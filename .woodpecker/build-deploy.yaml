@@ -1,0 +1,92 @@
+clone:
+  - name: git
+    image: woodpecker/plugin-git
+    settings:
+      partial: false
+      depth: 0
+      tags: true
+
+services:
+  - name: docker
+    image: docker:27-dind
+    detach: true
+    privileged: true
+    environment:
+      DOCKER_TLS_CERTDIR: /woodpecker/dind-certs
+
+    commands:
+      - dockerd-entrypoint.sh
+
+    backend_options:
+      kubernetes:
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1Gi
+          limits:
+            memory: 2Gi
+
+steps:
+  - name: calculate-release-tags
+    image: ghcr.io/purpleclay/nsv:v0.12.2
+    commands:
+      - nsv next --major-prefixes breaking --minor-prefixes feat --patch-prefixes fix,chore > .tags
+      - printf '%s\n' "$CI_COMMIT_SHA" main >> .tags
+    when:
+      - event: push
+        branch: main
+
+  - name: build-pull-request
+    image: woodpeckerci/plugin-docker-buildx:2
+    environment:
+      DOCKER_HOST: tcp://docker:2376
+      DOCKER_TLS_VERIFY: "1"
+      DOCKER_CERT_PATH: /woodpecker/dind-certs/client
+    settings:
+      daemon_off: true
+      dockerfile: docker/Dockerfile
+      repo: sports-analytics
+      tags: "${CI_COMMIT_SHA}"
+      platforms: linux/amd64,linux/arm64
+      dry_run: true
+    when:
+      - event: pull_request
+
+  - name: publish-main
+    image: woodpeckerci/plugin-docker-buildx:2
+    environment:
+      DOCKER_HOST: tcp://docker:2376
+      DOCKER_TLS_VERIFY: "1"
+      DOCKER_CERT_PATH: /woodpecker/dind-certs/client
+    settings:
+      daemon_off: true
+      dockerfile: docker/Dockerfile
+      repo:
+        from_secret: REGISTRY_IMAGE
+      registry:
+        from_secret: REGISTRY_URL
+      username:
+        from_secret: REGISTRY_USERNAME
+      password:
+        from_secret: REGISTRY_TOKEN
+      platforms: linux/amd64,linux/arm64
+      tags_file: .tags
+    when:
+      - event: push
+        branch: main
+
+  - name: create-release-tag
+    image: alpine/git:2.47.2
+    environment:
+      GITHUB_TOKEN:
+        from_secret: GITHUB_TOKEN
+    commands:
+      - IFS= read -r VERSION < .tags
+      - git config user.name "woodpecker-ci[bot]"
+      - git config user.email "woodpecker-ci@users.noreply.github.com"
+      - git tag -a "$VERSION" -m "chore: tagged release $VERSION"
+      - git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${CI_REPO}.git" "refs/tags/${VERSION}"
+    when:
+      - event: push
+        branch: main
+
