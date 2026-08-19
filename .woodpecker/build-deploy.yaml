@@ -1,0 +1,86 @@
+when:
+  - event: pull_request
+  - event: push
+    branch: main
+clone:
+  git:
+    image: woodpeckerci/plugin-git
+    settings:
+      partial: false
+      depth: 0
+      tags: true
+steps:
+  - name: calculate-release-tags
+    image: ghcr.io/purpleclay/nsv:v0.12.2
+    commands:
+      - |
+        set -eu
+
+        VERSION="$(nsv next --major-prefixes breaking --minor-prefixes feat --patch-prefixes fix,chore)"
+        SHORT_SHA="$(printf '%.12s' "$CI_COMMIT_SHA")"
+
+        test -n "$VERSION"
+        test -n "$SHORT_SHA"
+
+        printf '%s\n%s\nlatest\n' "$VERSION" "$SHORT_SHA" > .tags
+        nl -ba .tags
+    when:
+      - event: push
+        branch: main
+
+  - name: build-pull-request
+    image: woodpeckerci/plugin-docker-buildx:6
+    settings:
+      dockerfile: docker/Dockerfile
+      repo: sports-analytics
+      tags: "${CI_COMMIT_SHA}"
+      platforms: linux/amd64
+      dry_run: true
+    when:
+      - event: pull_request
+
+  - name: publish-main
+    depends_on:
+      - calculate-release-tags
+    image: woodpeckerci/plugin-docker-buildx:6
+    settings:
+      dockerfile: docker/Dockerfile
+      repo: cr.alumia.ai/oss/sports-analytics
+      registry: cr.alumia.ai
+      username:
+        from_secret: REGISTRY_USERNAME
+      password:
+        from_secret: REGISTRY_TOKEN
+      platforms: linux/amd64,linux/arm64
+      tags_file: .tags
+      cache_from: type=registry\,ref=cr.alumia.ai/oss/sports-analytics:buildcache
+      cache_to: type=registry,ref=cr.alumia.ai/oss/sports-analytics:buildcache,mode=max,image-manifest=true,oci-mediatypes=true
+    when:
+      - event: push
+        branch: main
+
+  - name: create-release-tag
+    depends_on:
+      - publish-main
+      - calculate-release-tags
+    image: alpine/git:2.47.2
+    environment:
+      GITHUB_TOKEN:
+        from_secret: GITHUB_TOKEN
+    commands:
+      - |
+        set -eu
+
+        nl -ba .tags
+
+        read -r VERSION < .tags
+        test -n "$VERSION"
+        printf 'Release version: %s\n' "$VERSION"
+
+        git config user.name "woodpecker-ci[bot]"
+        git config user.email "woodpecker-ci@users.noreply.github.com"
+        git tag -a "$VERSION" -m "chore: tagged release $VERSION"
+        git push "https://x-access-token:$${GITHUB_TOKEN}@github.com/$${CI_REPO}.git" "refs/tags/$${VERSION}"
+    when:
+      - event: push
+        branch: main
