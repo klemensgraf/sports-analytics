@@ -1,4 +1,3 @@
-
 ###
 # Build environment
 ###
@@ -30,11 +29,12 @@ RUN --mount=type=cache,target=/root/.cache \
 
 FROM python:3.13-slim-trixie
 
-# Copy the application from the builder
-COPY --from=builder /app /app
-
 # Create and switch to a non-root user
-RUN useradd -m -u 10001 appuser && chown -R appuser:appuser /app
+RUN useradd -m -u 10001 appuser
+
+# Copy the application from the builder
+COPY --chown=appuser:appuser --from=builder /app /app
+
 USER appuser
 
 # Place executables in the environment at the front of the path

@@ -25,7 +25,7 @@ steps:
       dockerfile: docker/Dockerfile
       repo: sports-analytics
       tags: "${CI_COMMIT_SHA}"
-      platforms: linux/amd64,linux/arm64
+      platforms: linux/amd64
       dry_run: true
     when:
       - event: pull_request
@@ -34,16 +34,16 @@ steps:
     image: woodpeckerci/plugin-docker-buildx:6
     settings:
       dockerfile: docker/Dockerfile
-      repo:
-        from_secret: REGISTRY_IMAGE
-      registry:
-        from_secret: REGISTRY_URL
+      repo: cr.alumia.ai/oss/sports-analytics
+      registry: cr.alumia.ai
       username:
         from_secret: REGISTRY_USERNAME
       password:
         from_secret: REGISTRY_TOKEN
       platforms: linux/amd64,linux/arm64
       tags_file: .tags
+      cache_from: type=registry,ref=cr.alumia.ai/oss/sports-analytics:buildcache
+      cache_to: type=registry,ref=cr.alumia.ai/oss/sports-analytics:buildcache,mode=max,image-manifest=true,oci-mediatypes=true
     when:
       - event: push
         branch: main
