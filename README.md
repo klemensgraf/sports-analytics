@@ -1,6 +1,7 @@
 # Sports Analytics
 
-> **Note**: This project is currently under active development. Some features and components are still in progress.
+> [!IMPORTANT]
+> This repository has been moved to [Codeberg](https://codeberg.org/klemensgraf/sports-analytics).
 
 An end-to-end machine learning project demonstrating a complete data pipeline from ingestion to model training. This
 project showcases modern data engineering and ML practices using NHL game data as a real-world example.
